@@ -107,6 +107,10 @@ const MyChatBot = () => {
         params.userInput === "New Booking" ? "ask_visit_date" : "start",
     },
   };
-  return <ChatBot settings={settings} flow={flow} styles={styles} />;
+  return (
+    <>
+      <ChatBot settings={settings} flow={flow} styles={styles} />
+    </>
+  );
 };
 export default MyChatBot;
