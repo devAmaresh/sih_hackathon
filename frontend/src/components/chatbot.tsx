@@ -1,5 +1,7 @@
+import ChatBot from "react-chatbotify";
+import settings from "../utils/settings";
+import styles from "../utils/styles";
 import React from "react";
-import ChatBot, { Button } from "react-chatbotify";
 const MyChatBot = () => {
   const [form, setForm] = React.useState<any>({});
   const formStyle = {
@@ -10,103 +12,101 @@ const MyChatBot = () => {
     borderRadius: 5,
     maxWidth: 300,
   };
-  const chatIcon = "";
-  const settings = {
-    general: { embedded: false },
-    chatHistory: { disabled: true },
-    header: {
-     title: (
-      <div style={{cursor: "pointer", margin: 0, fontSize: 20, fontWeight: "bold"}}>
-       SalonaX
-      </div>
-     ),
-     showAvatar: true,
-     buttons: [Button.NOTIFICATION_BUTTON, Button.AUDIO_BUTTON, Button.CLOSE_CHAT_BUTTON],
-    },
-    footer: {
-     text: (
-      <div style={{cursor: "pointer", display: "flex", flexDirection: "row", alignItems: "center", columnGap: 3}} 
-       onClick={() => window.open("https://amareshh.vercel.app")}
-      >
-       <span key={0}>Powered By </span>
-       <span key={2} style={{fontWeight: "bold"}}>SalonaX</span>
-      </div>
-     ),
-     buttons: [Button.FILE_ATTACHMENT_BUTTON, Button.EMOJI_PICKER_BUTTON]
-    },
-    tooltip: {
-     mode: "CLOSE",
-     text: "I'm here to assist you😊",
-    },
-    notification:{
-     disabled: true,
-    },
-    chatButton: {
-     icon: chatIcon,
-    },
-   userBubble:{
-    animate:false,
-   },
-   botBubble:{
-    animate:false,
-   },
-  };
+
   const flow = {
     start: {
-      message: "Hello there! What is your name?",
-      function: (params: any) => setForm({ ...form, name: params.userInput }),
-      path: "ask_age",
+      message: "Welcome to the Museum! How can we assist you today?",
+      options: ["Info", "Book Tickets", "Track Tickets"],
+      path: (params: any) => {
+        switch (params.userInput) {
+          case "Info":
+            return "provide_info";
+          case "Book Tickets":
+            return "ask_visit_date";
+          case "Track Tickets":
+            return "ask_ticket_id";
+          default:
+            return "start";
+        }
+      },
     },
-    ask_age: {
-      message: (params: any) =>
-        `Nice to meet you ${params.userInput}, what is your age?`,
-      function: (params: any) => setForm({ ...form, age: params.userInput }),
-      path: "ask_pet",
+    provide_info: {
+      message:
+        "Our museum is open from 9 AM to 6 PM, Monday to Sunday. Admission is free for children under 12. Would you like to know more or book a ticket?",
+      options: ["More Info", "Book Tickets"],
+      path: (params: any) =>
+        params.userInput === "More Info"
+          ? "provide_more_info"
+          : "ask_visit_date",
     },
-    ask_pet: {
-      message: "Do you own any pets?",
-      // alternative way to declare options, with sending of output disabled
-      // more info here: https://react-chatbotify.com/docs/api/attributes
-      // options: {items: ["Yes", "No"], sendOutput: false}
+    provide_more_info: {
+      message:
+        "The museum offers various exhibitions, guided tours, and workshops. Visit our website for more details. Would you like to book tickets now?",
       options: ["Yes", "No"],
-      chatDisabled: true,
-      function: (params: any) =>
-        setForm({ ...form, pet_ownership: params.userInput }),
-      path: "ask_choice",
+      path: (params: any) =>
+        params.userInput === "Yes" ? "ask_visit_date" : "start",
     },
-    ask_choice: {
-      message: "Select at least 2 pets that you are comfortable to work with:",
-      // alternative way to declare checkboxes, with default configurations (i.e. min 1, max 4, send output and not reusable)
-      // more info here: https://react-chatbotify.com/docs/api/attributes
-      // checkboxes: ["Dog", "Cat", "Rabbit", "Hamster"]
-      checkboxes: { items: ["Dog", "Cat", "Rabbit", "Hamster"], min: 2 },
-      chatDisabled: true,
+    ask_visit_date: {
+      message: "Please select the date of your visit:",
       function: (params: any) =>
-        setForm({ ...form, pet_choices: params.userInput }),
-      path: "ask_work_days",
+        setForm({ ...form, visit_date: params.userInput }),
+      path: "ask_num_tickets",
     },
-    ask_work_days: {
-      message: "How many days can you work per week?",
+    ask_num_tickets: {
+      message: "How many tickets would you like to book?",
       function: (params: any) =>
-        setForm({ ...form, num_work_days: params.userInput }),
-      path: "end",
+        setForm({ ...form, num_tickets: params.userInput }),
+      path: "ask_ticket_type",
     },
-    end: {
-      message: "Thank you for your interest, we will get back to you shortly!",
+    ask_ticket_type: {
+      message: "Please select the type of tickets:",
+      checkboxes: { items: ["Adult", "Child", "Senior"], min: 1 },
+      function: (params: any) =>
+        setForm({ ...form, ticket_types: params.userInput }),
+      path: "ask_contact_info",
+    },
+    ask_contact_info: {
+      message: "Please provide your contact information (email or phone):",
+      function: (params: any) =>
+        setForm({ ...form, contact_info: params.userInput }),
+      path: "confirm_booking",
+    },
+    confirm_booking: {
+      message:
+        "Thank you! Your tickets have been booked. Would you like to start a new booking or track your tickets?",
       component: (
         <div style={formStyle}>
-          <p>Name: {form.name}</p>
-          <p>Age: {form.age}</p>
-          <p>Pet Ownership: {form.pet_ownership}</p>
-          <p>Pet Choices: {form.pet_choices}</p>
-          <p>Num Work Days: {form.num_work_days}</p>
+          <p>Visit Date: {form.visit_date}</p>
+          <p>Number of Tickets: {form.num_tickets}</p>
+          <p>Ticket Types: {form.ticket_types}</p>
+          <p>Contact Info: {form.contact_info}</p>
         </div>
       ),
-      options: ["New Application"],
-      chatDisabled: true,
-      path: "start",
+      options: ["New Booking", "Track Tickets"],
+      path: (params: any) =>
+        params.userInput === "New Booking" ? "ask_visit_date" : "ask_ticket_id",
+    },
+    ask_ticket_id: {
+      message: "Please enter your ticket ID to track your booking:",
+      function: (params: any) =>
+        setForm({ ...form, ticket_id: params.userInput }),
+      path: "display_ticket_status",
+    },
+    display_ticket_status: {
+      message: "Your ticket is confirmed for the following details:",
+      component: (
+        <div style={formStyle}>
+          <p>Ticket ID: {form.ticket_id}</p>
+          <p>Visit Date: {form.visit_date}</p>
+          <p>Number of Tickets: {form.num_tickets}</p>
+          <p>Ticket Types: {form.ticket_types}</p>
+        </div>
+      ),
+      options: ["New Booking", "Exit"],
+      path: (params: any) =>
+        params.userInput === "New Booking" ? "ask_visit_date" : "start",
     },
   };
-  return <ChatBot settings={settings} flow={flow} />;
+  return <ChatBot settings={settings} flow={flow} styles={styles} />;
 };
 export default MyChatBot;
