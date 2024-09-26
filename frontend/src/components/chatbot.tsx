@@ -4,14 +4,6 @@ import styles from "../utils/styles";
 import React from "react";
 const MyChatBot = () => {
   const [form, setForm] = React.useState<any>({});
-  const formStyle = {
-    marginTop: 10,
-    marginLeft: 20,
-    border: "1px solid #491d8d",
-    padding: 10,
-    borderRadius: 5,
-    maxWidth: 300,
-  };
 
   const flow = {
     start: {
@@ -75,11 +67,18 @@ const MyChatBot = () => {
       message:
         "Thank you! Your tickets have been booked. Would you like to start a new booking or track your tickets?",
       component: (
-        <div style={formStyle}>
-          <p>Visit Date: {form.visit_date}</p>
-          <p>Number of Tickets: {form.num_tickets}</p>
-          <p>Ticket Types: {form.ticket_types}</p>
-          <p>Contact Info: {form.contact_info}</p>
+        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
+          <div className="text-lg font-semibold text-gray-800">
+            Booking Summary
+          </div>
+          <div className="text-sm text-gray-600">
+            <div className="font-medium">Visit Date:{form.visit_date}</div>
+            <div className="font-medium">
+              Number of Tickets: {form.num_tickets}
+            </div>
+            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
+            <div className="font-medium">Contact Info: {form.contact_info}</div>
+          </div>
         </div>
       ),
       options: ["New Booking", "Track Tickets"],
@@ -95,11 +94,18 @@ const MyChatBot = () => {
     display_ticket_status: {
       message: "Your ticket is confirmed for the following details:",
       component: (
-        <div style={formStyle}>
-          <p>Ticket ID: {form.ticket_id}</p>
-          <p>Visit Date: {form.visit_date}</p>
-          <p>Number of Tickets: {form.num_tickets}</p>
-          <p>Ticket Types: {form.ticket_types}</p>
+        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
+          <div className="text-lg font-semibold text-gray-800">
+            Booking Summary
+          </div>
+          <div className="text-sm text-gray-600">
+            <div className="font-medium">Visit Date:{form.visit_date}</div>
+            <div className="font-medium">
+              Number of Tickets: {form.num_tickets}
+            </div>
+            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
+            <div className="font-medium">Contact Info: {form.contact_info}</div>
+          </div>
         </div>
       ),
       options: ["New Booking", "Exit"],
