@@ -1,0 +1,6 @@
+myvenv/
+backend/migrations/
+backend/__pycache__/
+sih/migrations/
+sih/__pycache__/
+db.sqlite3
