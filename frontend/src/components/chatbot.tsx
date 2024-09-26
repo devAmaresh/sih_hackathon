@@ -2,9 +2,11 @@ import ChatBot from "react-chatbotify";
 import settings from "../utils/settings";
 import styles from "../utils/styles";
 import React from "react";
+import getTicketDetails from "../hooks/getDetails";
+
 const MyChatBot = () => {
   const [form, setForm] = React.useState<any>({});
-
+  const [ticketDetails, setTicketDetails] = React.useState<any>({});
   const flow = {
     start: {
       message: "Welcome to the Museum! How can we assist you today?",
@@ -61,7 +63,38 @@ const MyChatBot = () => {
       message: "Please provide your contact information (email or phone):",
       function: (params: any) =>
         setForm({ ...form, contact_info: params.userInput }),
-      path: "confirm_booking",
+      // **Fixed Path Name**
+      path: "show_booking_details",
+    },
+    show_booking_details: {
+      message: "Your booking summary is as follows. Please confirm:",
+      component: (
+        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
+          <div className="text-lg font-semibold text-gray-800">
+            Booking Summary
+          </div>
+
+          <div className="text-sm text-gray-600">
+            {/* **Removed 'Name' and 'Booked on' as they are not collected** */}
+            <div className="font-medium">Visit Date: {form.visit_date}</div>
+            <div className="font-medium">
+              Number of Tickets: {form.num_tickets}
+            </div>
+            <div className="font-medium">
+              Ticket Types: {form.ticket_types}
+            </div>
+            <div className="font-medium">Contact Info: {form.contact_info}</div>
+          </div>
+        </div>
+      ),
+      options: ["Confirm", "Cancel"],
+      path: (params: any) => {
+        if (params.userInput === "Confirm") {
+          return "confirm_booking";
+        } else {
+          return "start";
+        }
+      },
     },
     confirm_booking: {
       message:
@@ -69,14 +102,16 @@ const MyChatBot = () => {
       component: (
         <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
           <div className="text-lg font-semibold text-gray-800">
-            Booking Summary
+            Booking Confirmed
           </div>
           <div className="text-sm text-gray-600">
-            <div className="font-medium">Visit Date:{form.visit_date}</div>
+            <div className="font-medium">Visit Date: {form.visit_date}</div>
             <div className="font-medium">
               Number of Tickets: {form.num_tickets}
             </div>
-            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
+            <div className="font-medium">
+              Ticket Types: {form.ticket_types}
+            </div>
             <div className="font-medium">Contact Info: {form.contact_info}</div>
           </div>
         </div>
@@ -87,8 +122,10 @@ const MyChatBot = () => {
     },
     ask_ticket_id: {
       message: "Please enter your ticket ID to track your booking:",
-      function: (params: any) =>
-        setForm({ ...form, ticket_id: params.userInput }),
+      function: async (params: any) => {
+        const res = await getTicketDetails(params.userInput);
+        setTicketDetails(res);
+      },
       path: "display_ticket_status",
     },
     display_ticket_status: {
@@ -99,12 +136,10 @@ const MyChatBot = () => {
             Booking Summary
           </div>
           <div className="text-sm text-gray-600">
-            <div className="font-medium">Visit Date:{form.visit_date}</div>
-            <div className="font-medium">
-              Number of Tickets: {form.num_tickets}
-            </div>
-            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
-            <div className="font-medium">Contact Info: {form.contact_info}</div>
+            <div className="font-medium">Ticket ID: {ticketDetails.id}</div>
+            <div className="font-medium">Name: {ticketDetails.name}</div>
+            <div className="font-medium">Email: {ticketDetails.email}</div>
+            <div className="font-medium">Visit Date: {ticketDetails.visiting_date}</div>
           </div>
         </div>
       ),
@@ -113,6 +148,7 @@ const MyChatBot = () => {
         params.userInput === "New Booking" ? "ask_visit_date" : "start",
     },
   };
+
   return (
     <>
       <ChatBot settings={settings} flow={flow} styles={styles} />
