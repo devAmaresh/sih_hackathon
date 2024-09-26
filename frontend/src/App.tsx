@@ -1,13 +1,15 @@
-import MyChatBot from "./components/chatbot"
-function App() {
+import MyChatBot from "./components/chatbot";
+import Spline from "@splinetool/react-spline";
 
+function App() {
   return (
     <>
-     <h1>hello hackerash
-     </h1>
-     <MyChatBot/>
+      <div className="w-screen h-screen bg-black">
+        <Spline scene="https://prod.spline.design/vt0QAKKnXoMvq2sk/scene.splinecode" />
+        <MyChatBot />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
