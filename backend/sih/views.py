@@ -46,9 +46,6 @@ class BookTicket(generics.CreateAPIView):
                 + int(senior) * senior_price
             ) * 100
 
-            # Save booking to DB
-            booking = serializer.save()
-
             # Create Razorpay order
             razorpay_order = razorpay_client.order.create(
                 {"amount": amount, "currency": "INR", "payment_capture": "1"}
@@ -155,7 +152,7 @@ class PaymentHandler(generics.CreateAPIView):
             if result is not None:
                 # Check if payment is already captured
                 payment_details = razorpay_client.payment.fetch(payment_id)
-                booking = Booking.objects.get(razorpay_order_id=razorpay_order_id)
+                booking = Booking.objects.get(payment_id=razorpay_order_id)
                 if payment_details["status"] == "captured":
                     booking.status = "Paid"
                     booking.save()
