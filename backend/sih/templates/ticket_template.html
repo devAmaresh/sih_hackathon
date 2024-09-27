@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      .ticket {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        margin: auto;
+      }
+      .ticket-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .ticket-header h1 {
+        font-size: 24px;
+        color: #d83565;
+      }
+      .ticket-info {
+        margin-bottom: 20px;
+      }
+      .ticket-info p {
+        margin: 5px 0;
+      }
+      .qr-code {
+        text-align: center;
+      }
+      .qr-code img {
+        width: 100px;
+        height: 100px;
+      }
+      .ticket-footer {
+        text-align: center;
+        font-size: 12px;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ticket">
+      <div class="ticket-header">
+        <h1>Museum Ticket</h1>
+        <h2>{{ booking.name }}</h2>
+      </div>
+      <div class="ticket-info">
+        <p><strong>Date:</strong> {{ formatted_date }}</p>
+        <p><strong>Day:</strong> {{ day_of_week }}</p>
+        <p><strong>Year:</strong> {{ year }}</p>
+        <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+      </div>
+      <div class="qr-code">
+        <img src="{{ qr_code_data_url }}" alt="QR Code" />
+      </div>
+      <div class="ticket-footer">
+        <p>We look forward to welcoming you!</p>
+      </div>
+    </div>
+  </body>
+</html>

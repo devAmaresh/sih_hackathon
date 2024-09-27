@@ -52,7 +52,9 @@ class BookTicket(generics.CreateAPIView):
             )
 
             # Update the booking with the Razorpay order ID
-            booking = serializer.save(payment_id=razorpay_order["id"], amount=amount//100)
+            booking = serializer.save(
+                payment_id=razorpay_order["id"], amount=amount // 100
+            )
             booking.save()
 
             # Send response with booking details and Razorpay order info
@@ -131,6 +133,11 @@ class TicketVerification(APIView):
         )
 
 
+from .generate_pdf import generate_ticket_pdf
+from .mail import send_ticket_email
+from .qrcode import generate_qr_code
+
+
 class PaymentHandler(generics.CreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
@@ -156,6 +163,9 @@ class PaymentHandler(generics.CreateAPIView):
                 if payment_details["status"] == "captured":
                     booking.status = "Paid"
                     booking.save()
+                    ticket_pdf = generate_ticket_pdf(booking)
+                    send_ticket_email(booking, ticket_pdf)
+
                     return Response(
                         {"message": "Payment has already been captured."},
                         status=status.HTTP_200_OK,
