@@ -14,7 +14,7 @@ const datePick = () => {
     <div className="ml-4 mt-1 rounded-md">
       <input
         type="date"
-        className="p-0.5 border-2 rounded-lg"
+        className="p-0.5 border-2 rounded-lg mr-2"
         min={today} // Set min to today's date
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           updateForm("visiting_date", e.target.value);
