@@ -17,12 +17,12 @@ function contactForm({ handleContactFormSubmit }: any) {
     const { name, email, phone } = values;
     let visiting_date = form.visiting_date;
     console.log(name, email, phone, visiting_date);
-    const data = await handleContactFormSubmit(
-      name,
-      email,
-      phone,
-      visiting_date
-    );
+    // const data = await handleContactFormSubmit(
+    //   name,
+    //   email,
+    //   phone,
+    //   visiting_date
+    // );
     setSubmitting(false);
     const input = document.querySelector(
       ".rcb-chat-input-textarea"
@@ -40,14 +40,12 @@ function contactForm({ handleContactFormSubmit }: any) {
       keyCode: 13,
     });
     input.dispatchEvent(enterKeyEvent);
-    updateForm("id", data.id);
-    updateForm("name", data.name);
-    updateForm("email", data.email);
-    updateForm("phone", data.phone);
-    updateForm("visiting_date", data.visiting_date);
-    updateForm("child", data.child);
-    updateForm("adult", data.adult);
-    updateForm("senior", data.senior);
+  
+    updateForm("name", name);
+    updateForm("email", email);
+    updateForm("phone", phone);
+    updateForm("visiting_date", visiting_date);
+
     setMessages((prevMessages) => {
       console.log(messages);
       const newMessages = [...prevMessages];

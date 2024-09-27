@@ -17,4 +17,5 @@ class BookingSerializer(serializers.ModelSerializer):
             "senior",
             "payment_id",
             "status",
+            "amount",
         ]

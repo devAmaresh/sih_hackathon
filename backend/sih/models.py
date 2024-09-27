@@ -17,6 +17,7 @@ class Booking(models.Model):
     payment_id = models.CharField(max_length=100, null=True)
     status = models.CharField(max_length=100, default="Pending")
     token = models.CharField(max_length=100, default=token_urlsafe(20))
+    amount = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

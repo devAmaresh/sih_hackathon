@@ -1,3 +1,5 @@
+// ../components/MyChatBot.tsx
+
 import ChatBot, { Flow, Params, useFlow, useMessages } from "react-chatbotify";
 import settings from "../utils/settings";
 import styles from "../utils/styles";
@@ -7,6 +9,7 @@ import getTicketDetails from "../hooks/getDetails";
 import ContactForm from "./chat/contactForm";
 import handleContactFormSubmit from "../hooks/handleContactFormSubmit";
 import Quantity from "./chat/quantity";
+import processPayment from "../hooks/processPayment"; // Import the processPayment hook
 import "./chatbot.css";
 import { useStore } from "../store/store";
 
@@ -51,11 +54,7 @@ const MyChatBot = () => {
     },
     ask_visit_date: {
       message: "Please select the date of your visit:",
-      component: (
-        <>
-          <DatePick />
-        </>
-      ),
+      component: <DatePick />,
       chatDisabled: true,
       function: (_params: Params) => {
         console.log(messages);
@@ -74,11 +73,7 @@ const MyChatBot = () => {
     },
     ask_num_tickets: {
       message: "How many tickets would you like to book?",
-      component: (
-        <>
-          <Quantity />
-        </>
-      ),
+      component: <Quantity />,
       options: ["Cancel"],
       function: (_params: Params) => {
         console.log(messages);
@@ -104,12 +99,7 @@ const MyChatBot = () => {
     },
     ask_contact_info: {
       message: "Kindly fill in the details to proceed:",
-
-      component: (
-        <>
-          <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
-        </>
-      ),
+      component: <ContactForm handleContactFormSubmit={handleContactFormSubmit} />,
       options: ["Cancel"],
       function: (_params: Params) => {
         console.log(messages);
@@ -133,30 +123,59 @@ const MyChatBot = () => {
       },
       chatDisabled: true,
     },
-    restart: {
-      transition: 0.00001,
-      function: () => {
-        restartFlow();
-      },
-      chatDisabled: true,
-    },
     confirm_booking: {
-      message:
-        "Thank you! Your tickets have been booked. Would you like to start a new booking or track your tickets?",
+      message: "You have selected the following tickets:",
       component: (
         <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
           <div className="text-lg font-semibold text-gray-800">
-            Booking Confirmed
+            Confirm Booking
           </div>
           <div className="text-sm text-gray-600">
             <div className="font-medium">Name: {form.name}</div>
             <div className="font-medium">Visit Date: {form.visiting_date}</div>
-            <div className="font-medium">Ticket Id: {form.id}</div>
             <div className="font-medium">Email: {form.email}</div>
             <div className="font-medium">Contact Info: {form.phone}</div>
+            <div className="font-medium">
+              Total Tickets: Child - {form.child}, Adult - {form.adult}, Senior - {form.senior}
+            </div>
           </div>
         </div>
       ),
+      options: ["Confirm & Pay", "Cancel"],
+      path: async (params: any) => {
+        if (params.userInput === "Cancel") {
+          return "restart";
+        } else {
+          try {
+            // Prepare the booking data
+            const bookingData = {
+              name: form.name,
+              visiting_date: form.visiting_date,
+              email: form.email,
+              phone: form.phone,
+              child: form.child,
+              adult: form.adult,
+              senior: form.senior,
+            };
+
+            // Process the payment
+            const paymentResult = await processPayment(bookingData);
+
+            if (paymentResult.success) {
+              return "payment_success";
+            } else {
+              return "payment_failed";
+            }
+          } catch (error) {
+            console.error('Payment processing error:', error);
+            return "payment_failed";
+          }
+        }
+      },
+    },
+    payment_success: {
+      message:
+        "Thank you! Your payment was successful. Your tickets have been booked. Would you like to start a new booking or track your tickets?",
       options: ["New Booking", "Track Tickets", "Exit"],
       path: (params: any) => {
         if (params.userInput === "New Booking") {
@@ -168,7 +187,18 @@ const MyChatBot = () => {
         }
       },
     },
-
+    payment_failed: {
+      message:
+        "Sorry, your payment was unsuccessful. Would you like to try again or cancel?",
+      options: ["Try Again", "Cancel"],
+      path: (params: any) => {
+        if (params.userInput === "Try Again") {
+          return "confirm_booking";
+        } else {
+          return "restart";
+        }
+      },
+    },
     ask_ticket_id: {
       message: "Please enter your ticket ID to track your booking:",
       function: async (params: any) => {
@@ -198,6 +228,13 @@ const MyChatBot = () => {
       path: (params: any) =>
         params.userInput === "New Booking" ? "ask_visit_date" : "restart",
     },
+    restart: {
+      transition: 0.00001,
+      function: () => {
+        restartFlow();
+      },
+      chatDisabled: true,
+    },
   };
 
   return (
@@ -206,4 +243,5 @@ const MyChatBot = () => {
     </>
   );
 };
+
 export default MyChatBot;

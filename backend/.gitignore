@@ -4,3 +4,4 @@ backend/__pycache__/
 sih/migrations/
 sih/__pycache__/
 db.sqlite3
+.env
