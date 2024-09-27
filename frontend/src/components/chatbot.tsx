@@ -3,7 +3,7 @@ import settings from "../utils/settings";
 import styles from "../utils/styles";
 import React from "react";
 import getTicketDetails from "../hooks/getDetails";
-
+import "./chatbot.css";
 const MyChatBot = () => {
   const [form, setForm] = React.useState<any>({});
   const [ticketDetails, setTicketDetails] = React.useState<any>({});
@@ -80,9 +80,7 @@ const MyChatBot = () => {
             <div className="font-medium">
               Number of Tickets: {form.num_tickets}
             </div>
-            <div className="font-medium">
-              Ticket Types: {form.ticket_types}
-            </div>
+            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
             <div className="font-medium">Contact Info: {form.contact_info}</div>
           </div>
         </div>
@@ -109,9 +107,7 @@ const MyChatBot = () => {
             <div className="font-medium">
               Number of Tickets: {form.num_tickets}
             </div>
-            <div className="font-medium">
-              Ticket Types: {form.ticket_types}
-            </div>
+            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
             <div className="font-medium">Contact Info: {form.contact_info}</div>
           </div>
         </div>
@@ -139,7 +135,9 @@ const MyChatBot = () => {
             <div className="font-medium">Ticket ID: {ticketDetails.id}</div>
             <div className="font-medium">Name: {ticketDetails.name}</div>
             <div className="font-medium">Email: {ticketDetails.email}</div>
-            <div className="font-medium">Visit Date: {ticketDetails.visiting_date}</div>
+            <div className="font-medium">
+              Visit Date: {ticketDetails.visiting_date}
+            </div>
           </div>
         </div>
       ),
