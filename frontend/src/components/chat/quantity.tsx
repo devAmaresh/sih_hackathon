@@ -1,37 +1,156 @@
-import { Button } from "antd";
-import { RiSendPlane2Line } from "react-icons/ri";
-const quantity = () => {
-  return (
-    <div className="ml-4 mt-1 rounded-md">
-     <div>No of children</div>
-      <input
-        type="number"
-        className="p-0.5 border-2 rounded-lg"
-      />
-      <Button
-        type="default"
-        icon={<RiSendPlane2Line />}
-        onClick={() => {
-          const input = document.querySelector(
-            ".rcb-chat-input-textarea"
-          ) as HTMLTextAreaElement;
-          if (input) {
-            
-          }
+import { Spin, Form, Input, Button, ConfigProvider } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { useStore } from "../../store/store";
+import { useMessages } from "react-chatbotify";
 
-          const inputEvent = new Event("input", { bubbles: true });
-          input.dispatchEvent(inputEvent);
-          const enterKeyEvent = new KeyboardEvent("keydown", {
-            key: "Enter",
-            bubbles: true,
-            cancelable: true,
-            keyCode: 13,
-          });
-          input.dispatchEvent(enterKeyEvent);
+const { Item } = Form;
+
+function quantity() {
+  const [submitting, setSubmitting] = useState(false);
+  const theme = localStorage.getItem("theme") || "light";
+  const { messages, setMessages } = useMessages();
+  const updateForm = useStore((state) => state.updateForm);
+  const onFinish = async (values: any) => {
+    setSubmitting(true);
+    const { adult, child, senior } = values;
+
+    const input = document.querySelector(
+      ".rcb-chat-input-textarea"
+    ) as HTMLTextAreaElement;
+    if (input) {
+      input.value = `child: ${child}, adult: ${adult}, senior: ${senior} `;
+    }
+
+    const inputEvent = new Event("input", { bubbles: true });
+    input.dispatchEvent(inputEvent);
+    const enterKeyEvent = new KeyboardEvent("keydown", {
+      key: "Enter",
+      bubbles: true,
+      cancelable: true,
+      keyCode: 13,
+    });
+    input.dispatchEvent(enterKeyEvent);
+    updateForm("child", child);
+    updateForm("adult", adult);
+    updateForm("senior", senior);
+    setSubmitting(false);
+    setMessages((prevMessages) => {
+      console.log(messages);
+      const newMessages = [...prevMessages];
+      for (let i = newMessages.length - 1; i >= 0; i--) {
+        if (newMessages[i].sender === "bot") {
+          newMessages.splice(i, 1);
+          break;
+        }
+      }
+      return newMessages;
+    });
+  };
+
+  return (
+    <div
+      className={`w-[70%] max-w-[380px] ml-4 p-4 ${
+        theme === "dark"
+          ? "bg-zinc-800 border-2 text-white border-zinc-700"
+          : "bg-zinc-100 text-black"
+      } rounded-b-lg rounded-tr-lg border-[1px] border-zinc-200 shadow-sm`}
+    >
+      <div className="text-semibold text-center pb-3">
+        Fill in number of tickets
+      </div>
+      <ConfigProvider
+        theme={{
+          components: {
+            Input: {
+              colorTextPlaceholder:
+                theme === "dark"
+                  ? "rgba(255, 255, 255, 0.4)"
+                  : "rgba(0, 0, 0, 0.25)",
+            },
+          },
         }}
-      />
+      >
+        <Form
+          name="leadForm"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          className="space-y-4"
+        >
+          <Item
+            name="child"
+            rules={[{ required: true, message: "Please input no child!" }]}
+          >
+            <Input
+              type="number"
+              placeholder="Enter no of child"
+              className="w-full p-2 rounded-lg"
+              style={{
+                backgroundColor: theme === "dark" ? "black" : "white",
+                color: theme === "dark" ? "white" : "black",
+              }}
+            />
+          </Item>
+          <Item
+            name="adult"
+            rules={[{ required: true, message: "Please input no of adults!" }]}
+          >
+            <Input
+              type="number"
+              placeholder="Enter no of adults"
+              className="w-full p-2 rounded-lg"
+              style={{
+                backgroundColor: theme === "dark" ? "black" : "white",
+                color: theme === "dark" ? "white" : "black",
+              }}
+            />
+          </Item>
+
+          <Item
+            name="senior"
+            rules={[{ required: true, message: "Enter no of senior!" }]}
+          >
+            <Input
+              type="number"
+              placeholder="Enter your no of Senior"
+              className="w-full p-2 rounded-lg"
+              style={{
+                backgroundColor: theme === "dark" ? "black" : "white",
+                color: theme === "dark" ? "white" : "black",
+              }}
+              // allowClear={true}
+            />
+          </Item>
+
+          <Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="middle"
+              disabled={submitting}
+              style={{ width: "100%", height: "36px" }}
+              className={`${
+                theme === "dark"
+                  ? "bg-blue-500 text-white hover:bg-blue-600"
+                  : "bg-blue-200 text-black hover:bg-blue-300"
+              }`}
+            >
+              {submitting ? (
+                <Spin
+                  size="default"
+                  indicator={
+                    <LoadingOutlined style={{ color: "black" }} spin />
+                  }
+                />
+              ) : (
+                "Submit"
+              )}
+            </Button>
+          </Item>
+        </Form>
+      </ConfigProvider>
     </div>
   );
-};
+}
 
 export default quantity;

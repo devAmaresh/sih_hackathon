@@ -6,6 +6,7 @@ import DatePick from "./chat/datePick";
 import getTicketDetails from "../hooks/getDetails";
 import ContactForm from "./chat/contactForm";
 import handleContactFormSubmit from "../hooks/handleContactFormSubmit";
+import Quantity from "./chat/quantity";
 import "./chatbot.css";
 import { useStore } from "../store/store";
 
@@ -75,6 +76,11 @@ const MyChatBot = () => {
       message: "How many tickets would you like to book?",
       function: (params: any) =>
         console.log("Number of tickets:", params.userInput),
+      component: (
+        <>
+          <Quantity />
+        </>
+      ),
       path: "ask_contact_info",
     },
     ask_contact_info: {
