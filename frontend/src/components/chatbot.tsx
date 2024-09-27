@@ -1,13 +1,21 @@
-import ChatBot from "react-chatbotify";
+import ChatBot, { Flow, Params, useFlow, useMessages } from "react-chatbotify";
 import settings from "../utils/settings";
 import styles from "../utils/styles";
-import React from "react";
+import { useState } from "react";
+import DatePick from "./chat/datePick";
 import getTicketDetails from "../hooks/getDetails";
+import ContactForm from "./chat/contactForm";
+import handleContactFormSubmit from "../hooks/handleContactFormSubmit";
 import "./chatbot.css";
+import { useStore } from "../store/store";
+
 const MyChatBot = () => {
-  const [form, setForm] = React.useState<any>({});
-  const [ticketDetails, setTicketDetails] = React.useState<any>({});
-  const flow = {
+  const form = useStore((state) => state.form);
+  const { restartFlow } = useFlow();
+  const [ticketDetails, setTicketDetails] = useState<any>({});
+  const { messages, setMessages } = useMessages();
+
+  const flow: Flow = {
     start: {
       message: "Welcome to the Museum! How can we assist you today?",
       options: ["Info", "Book Tickets", "Track Tickets"],
@@ -42,57 +50,69 @@ const MyChatBot = () => {
     },
     ask_visit_date: {
       message: "Please select the date of your visit:",
-      function: (params: any) =>
-        setForm({ ...form, visit_date: params.userInput }),
+      component: (
+        <>
+          <DatePick />
+        </>
+      ),
+      chatDisabled: true,
+      function: (_params: Params) => {
+        console.log(messages);
+        setMessages((prevMessages) => {
+          const newMessages = [...prevMessages];
+          for (let i = newMessages.length - 1; i >= 0; i--) {
+            if (newMessages[i].sender === "bot") {
+              newMessages.splice(i, 1);
+              break;
+            }
+          }
+          return newMessages;
+        });
+      },
       path: "ask_num_tickets",
     },
     ask_num_tickets: {
       message: "How many tickets would you like to book?",
       function: (params: any) =>
-        setForm({ ...form, num_tickets: params.userInput }),
-      path: "ask_ticket_type",
-    },
-    ask_ticket_type: {
-      message: "Please select the type of tickets:",
-      checkboxes: { items: ["Adult", "Child", "Senior"], min: 1 },
-      function: (params: any) =>
-        setForm({ ...form, ticket_types: params.userInput }),
+        console.log("Number of tickets:", params.userInput),
       path: "ask_contact_info",
     },
     ask_contact_info: {
-      message: "Please provide your contact information (email or phone):",
-      function: (params: any) =>
-        setForm({ ...form, contact_info: params.userInput }),
-      // **Fixed Path Name**
-      path: "show_booking_details",
-    },
-    show_booking_details: {
-      message: "Your booking summary is as follows. Please confirm:",
+      message: "Kindly fill in the details to proceed:",
+      function: (_params: Params) => {
+        console.log(messages);
+        setMessages((prevMessages) => {
+          const newMessages = [...prevMessages];
+          for (let i = newMessages.length - 1; i >= 0; i--) {
+            if (newMessages[i].sender === "bot") {
+              newMessages.splice(i, 1);
+              break;
+            }
+          }
+          return newMessages;
+        });
+      },
       component: (
-        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
-          <div className="text-lg font-semibold text-gray-800">
-            Booking Summary
-          </div>
-
-          <div className="text-sm text-gray-600">
-            {/* **Removed 'Name' and 'Booked on' as they are not collected** */}
-            <div className="font-medium">Visit Date: {form.visit_date}</div>
-            <div className="font-medium">
-              Number of Tickets: {form.num_tickets}
-            </div>
-            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
-            <div className="font-medium">Contact Info: {form.contact_info}</div>
-          </div>
-        </div>
+        <>
+          <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
+        </>
       ),
-      options: ["Confirm", "Cancel"],
+      options: ["Cancel"],
       path: (params: any) => {
-        if (params.userInput === "Confirm") {
-          return "confirm_booking";
+        if (params.userInput === "Cancel") {
+          return "restart";
         } else {
-          return "start";
+          return "confirm_booking";
         }
       },
+      chatDisabled: true,
+    },
+    restart: {
+      transition: 0.00001,
+      function: () => {
+        restartFlow();
+      },
+      chatDisabled: true,
     },
     confirm_booking: {
       message:
@@ -103,12 +123,9 @@ const MyChatBot = () => {
             Booking Confirmed
           </div>
           <div className="text-sm text-gray-600">
-            <div className="font-medium">Visit Date: {form.visit_date}</div>
-            <div className="font-medium">
-              Number of Tickets: {form.num_tickets}
-            </div>
-            <div className="font-medium">Ticket Types: {form.ticket_types}</div>
-            <div className="font-medium">Contact Info: {form.contact_info}</div>
+            <div className="font-medium">Visit Date: {form.visiting_date}</div>
+            <div className="font-medium">Ticket Types: {form.name}</div>
+            <div className="font-medium">Contact Info: {form.phone}</div>
           </div>
         </div>
       ),
@@ -143,7 +160,7 @@ const MyChatBot = () => {
       ),
       options: ["New Booking", "Exit"],
       path: (params: any) =>
-        params.userInput === "New Booking" ? "ask_visit_date" : "start",
+        params.userInput === "New Booking" ? "ask_visit_date" : "restart",
     },
   };
 

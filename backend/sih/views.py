@@ -12,6 +12,7 @@ from rest_framework.permissions import AllowAny
 class BookTicket(generics.CreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         data = request.data
@@ -65,14 +66,16 @@ class TicketVerification(APIView):
             )
         if booking_id and token:
             try:
-                booking = Booking.objects.get(id=booking_id,token=token)
+                booking = Booking.objects.get(id=booking_id, token=token)
                 booking.status = "Verified"
                 booking.save()
 
-
             except Booking.DoesNotExist:
                 return Response(
-                    {"message": "Ticket Verification unsuccessfull"}, status=status.HTTP_404_NOT_FOUND
+                    {"message": "Ticket Verification unsuccessfull"},
+                    status=status.HTTP_404_NOT_FOUND,
                 )
 
-        return Response({"message": "Ticket Verification successfull"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Ticket Verification successfull"}, status=status.HTTP_200_OK
+        )
