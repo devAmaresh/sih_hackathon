@@ -2,12 +2,14 @@ import { Spin, Form, Input, Button, ConfigProvider } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useStore } from "../../store/store";
+import { useMessages } from "react-chatbotify";
 
 const { Item } = Form;
 
 function contactForm({ handleContactFormSubmit }: any) {
   const [submitting, setSubmitting] = useState(false);
   const theme = localStorage.getItem("theme") || "light";
+  const { messages, setMessages } = useMessages();
   const form = useStore((state) => state.form);
   const updateForm = useStore((state) => state.updateForm);
   const onFinish = async (values: any) => {
@@ -46,6 +48,17 @@ function contactForm({ handleContactFormSubmit }: any) {
     updateForm("child", data.child);
     updateForm("adult", data.adult);
     updateForm("senior", data.senior);
+    setMessages((prevMessages) => {
+      console.log(messages);
+      const newMessages = [...prevMessages];
+      for (let i = newMessages.length - 1; i >= 0; i--) {
+        if (newMessages[i].sender === "bot") {
+          newMessages.splice(i, 1);
+          break;
+        }
+      }
+      return newMessages;
+    });
   };
 
   return (

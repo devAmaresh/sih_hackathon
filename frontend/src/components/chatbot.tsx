@@ -79,19 +79,7 @@ const MyChatBot = () => {
     },
     ask_contact_info: {
       message: "Kindly fill in the details to proceed:",
-      function: (_params: Params) => {
-        console.log(messages);
-        setMessages((prevMessages) => {
-          const newMessages = [...prevMessages];
-          for (let i = newMessages.length - 1; i >= 0; i--) {
-            if (newMessages[i].sender === "bot") {
-              newMessages.splice(i, 1);
-              break;
-            }
-          }
-          return newMessages;
-        });
-      },
+
       component: (
         <>
           <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
@@ -138,7 +126,7 @@ const MyChatBot = () => {
         } else {
           return "restart";
         }
-      }
+      },
     },
 
     ask_ticket_id: {
