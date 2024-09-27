@@ -55,7 +55,7 @@ class BookTicket(generics.CreateAPIView):
             )
 
             # Update the booking with the Razorpay order ID
-            booking = serializer.save(payment_id=razorpay_order["id"], amount=amount)
+            booking = serializer.save(payment_id=razorpay_order["id"], amount=amount//100)
             booking.save()
 
             # Send response with booking details and Razorpay order info
