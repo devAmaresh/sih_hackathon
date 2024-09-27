@@ -74,14 +74,33 @@ const MyChatBot = () => {
     },
     ask_num_tickets: {
       message: "How many tickets would you like to book?",
-      function: (params: any) =>
-        console.log("Number of tickets:", params.userInput),
       component: (
         <>
           <Quantity />
         </>
       ),
-      path: "ask_contact_info",
+      options: ["Cancel"],
+      function: (_params: Params) => {
+        console.log(messages);
+        setMessages((prevMessages) => {
+          const newMessages = [...prevMessages];
+          for (let i = newMessages.length - 1; i >= 0; i--) {
+            if (newMessages[i].sender === "bot") {
+              newMessages.splice(i, 1);
+              break;
+            }
+          }
+          return newMessages;
+        });
+      },
+      path: (params: any) => {
+        if (params.userInput === "Cancel") {
+          return "restart";
+        } else {
+          return "ask_contact_info";
+        }
+      },
+      chatDisabled: true,
     },
     ask_contact_info: {
       message: "Kindly fill in the details to proceed:",
@@ -92,6 +111,19 @@ const MyChatBot = () => {
         </>
       ),
       options: ["Cancel"],
+      function: (_params: Params) => {
+        console.log(messages);
+        setMessages((prevMessages) => {
+          const newMessages = [...prevMessages];
+          for (let i = newMessages.length - 1; i >= 0; i--) {
+            if (newMessages[i].sender === "bot") {
+              newMessages.splice(i, 1);
+              break;
+            }
+          }
+          return newMessages;
+        });
+      },
       path: (params: any) => {
         if (params.userInput === "Cancel") {
           return "restart";
@@ -117,8 +149,10 @@ const MyChatBot = () => {
             Booking Confirmed
           </div>
           <div className="text-sm text-gray-600">
+            <div className="font-medium">Name: {form.name}</div>
             <div className="font-medium">Visit Date: {form.visiting_date}</div>
-            <div className="font-medium">Ticket Types: {form.name}</div>
+            <div className="font-medium">Ticket Id: {form.id}</div>
+            <div className="font-medium">Email: {form.email}</div>
             <div className="font-medium">Contact Info: {form.phone}</div>
           </div>
         </div>

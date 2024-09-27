@@ -89,6 +89,8 @@ function quantity() {
                 backgroundColor: theme === "dark" ? "black" : "white",
                 color: theme === "dark" ? "white" : "black",
               }}
+              min={0}
+              step={1}
             />
           </Item>
           <Item
@@ -103,6 +105,8 @@ function quantity() {
                 backgroundColor: theme === "dark" ? "black" : "white",
                 color: theme === "dark" ? "white" : "black",
               }}
+              min={0}
+              step={1}
             />
           </Item>
 
@@ -118,6 +122,8 @@ function quantity() {
                 backgroundColor: theme === "dark" ? "black" : "white",
                 color: theme === "dark" ? "white" : "black",
               }}
+              min={0}
+              step={1}
               // allowClear={true}
             />
           </Item>
