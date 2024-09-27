@@ -4,16 +4,17 @@ const styles: Styles = {
   tooltipStyle: {
     fontSize: 16,
   },
-  chatWindowStyle:{
+  chatWindowStyle: {
     minHeight: "90%",
   },
 
   headerStyle: {
     background:
       "linear-gradient(180deg, rgba(5, 102, 255, 1) 0%, rgba(8, 143, 255, 1) 100%)",
-    minHeight:"80px",
+    minHeight: "80px",
     paddingTop: "23px",
-    },
+    minWidth: "100%",
+  },
   botBubbleStyle: {
     backgroundColor: "rgb(240, 242, 247)",
     color: "#000000",
@@ -75,7 +76,6 @@ const styles: Styles = {
   },
   chatIconStyle: {
     backgroundColor: "white",
-
   },
 };
 

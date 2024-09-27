@@ -129,10 +129,18 @@ const MyChatBot = () => {
           </div>
         </div>
       ),
-      options: ["New Booking", "Track Tickets"],
-      path: (params: any) =>
-        params.userInput === "New Booking" ? "ask_visit_date" : "ask_ticket_id",
+      options: ["New Booking", "Track Tickets", "Exit"],
+      path: (params: any) => {
+        if (params.userInput === "New Booking") {
+          return "ask_visit_date";
+        } else if (params.userInput === "Track Tickets") {
+          return "ask_ticket_id";
+        } else {
+          return "restart";
+        }
+      }
     },
+
     ask_ticket_id: {
       message: "Please enter your ticket ID to track your booking:",
       function: async (params: any) => {

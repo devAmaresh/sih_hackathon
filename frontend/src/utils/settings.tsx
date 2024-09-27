@@ -1,12 +1,12 @@
 import { Button, Settings } from "react-chatbotify";
+import Heading from "../components/chat/heading";
 const chatIcon = "images/icon1.jpg";
+
 const settings: Settings = {
   general: { embedded: false },
   chatHistory: { disabled: true },
   header: {
-    title: (
-      <div style={{ margin: 0, fontSize: 20, fontWeight: "bold" }}>SalonaX</div>
-    ),
+    title: <Heading />,
     showAvatar: true,
     buttons: [
       Button.NOTIFICATION_BUTTON,
