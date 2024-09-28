@@ -45,12 +45,14 @@ const MyChatBot = () => {
         params.userInput === t("more_info")
           ? "provide_more_info"
           : "ask_visit_date",
+      chatDisabled: true,
     },
     provide_more_info: {
       message: t("provide_more_info"),
       options: [t("yes"), t("no")],
       path: (params: any) =>
         params.userInput === t("yes") ? "ask_visit_date" : "start",
+      chatDisabled: true,
     },
     ask_visit_date: {
       message: t("select_date"),
