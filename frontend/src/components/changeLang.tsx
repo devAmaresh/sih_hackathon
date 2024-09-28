@@ -1,49 +1,89 @@
-import { useState } from "react";
-import { message } from "antd";
+import { Button, Dropdown, MenuProps, message } from "antd";
 import { CheckOutlined } from "@ant-design/icons"; // Import the tick icon
 import i18n from "../utils/i18n";
+import { IoLanguageOutline } from "react-icons/io5";
+import { useState } from "react";
 
-const ChangeLang = ({ toggleDropdown }: any) => {
-  const [selectedLang, setSelectedLang] = useState(i18n.language);
+const changeLang = () => {
+  const [selectedLang, setSelectedLang] = useState<string>(i18n.language);
   const handleLanguageChange = (lang: string, langName: string) => {
     i18n.changeLanguage(lang);
     setSelectedLang(lang);
     message.success(`Language Changed to ${langName}`);
-    toggleDropdown();
   };
-
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <div
+          className={`p-2 w-full rounded-md flex items-center justify-between min-w-28 mb-1 ${
+            selectedLang === "en" ? "bg-green-200" : ""
+          }`}
+        >
+          <span>English</span>
+          {selectedLang === "en" && <CheckOutlined className="ml-2" />}
+        </div>
+      ),
+      onClick: () => handleLanguageChange("en", "English"),
+      disabled: selectedLang === "en",
+    },
+    {
+      key: "2",
+      label: (
+        <div
+          className={`p-2 w-full rounded-md flex items-center justify-between mb-1 ${
+            selectedLang === "bn" ? "bg-green-200" : ""
+          }`}
+        >
+          <span>বাংলা</span>
+          {selectedLang === "bn" && <CheckOutlined className="ml-2" />}
+        </div>
+      ),
+      disabled: selectedLang === "bn",
+      onClick: () => handleLanguageChange("bn", "Bengali"),
+    },
+    {
+      key: "3",
+      label: (
+        <div
+          className={`p-2 w-full rounded-md flex items-center justify-between mb-1 ${
+            selectedLang === "hi" ? "bg-green-200" : ""
+          }`}
+        >
+          <span>हिंदी</span>
+          {selectedLang === "hi" && <CheckOutlined className="ml-2" />}
+        </div>
+      ),
+      disabled: selectedLang === "hi",
+      onClick: () => handleLanguageChange("hi", "Hindi"),
+    },
+    {
+      key: "4",
+      label: (
+        <div
+          className={`p-2 w-full rounded-md flex items-center justify-between ${
+            selectedLang === "gj" ? "bg-green-200" : ""
+          }`}
+        >
+          <span>ગુજરાતી</span>
+          {selectedLang === "gj" && <CheckOutlined className="ml-2" />}
+        </div>
+      ),
+      disabled: selectedLang === "gj",
+      onClick: () => handleLanguageChange("gj", "Gujarati"),
+    },
+  ];
   return (
-    <div className="absolute bg-white border-2 rounded-md border-black shadow-md mt-2">
-      <button
-        onClick={() => handleLanguageChange("en", "English")}
-        className="p-2 hover:bg-green-200 w-full rounded-md flex items-center justify-between min-w-28"
-      >
-        <span>English</span>
-        {selectedLang === "en" && <CheckOutlined className="ml-2"/>} 
-      </button>
-      <button
-        onClick={() => handleLanguageChange("bn", "Bengali")}
-        className="p-2 hover:bg-green-200 w-full rounded-md flex items-center justify-between"
-      >
-        <span>বাংলা</span>
-        {selectedLang === "bn" && <CheckOutlined className="ml-2"/>} 
-      </button>
-      <button
-        onClick={() => handleLanguageChange("hi", "Hindi")}
-        className="p-2 hover:bg-green-200 w-full rounded-md flex items-center justify-between"
-      >
-        <span>हिंदी</span>
-        {selectedLang === "hi" && <CheckOutlined className="ml-2"/>} 
-      </button>
-      <button
-        onClick={() => handleLanguageChange("gj", "Gujarati")}
-        className="p-2 hover:bg-green-200 w-full rounded-md flex items-center justify-between"
-      >
-        <span>ગુજરાતી</span>
-        {selectedLang === "gj" && <CheckOutlined className="ml-2"/>} 
-      </button>
-    </div>
+    <Dropdown
+      menu={{ items }}
+      placement="topRight"
+      arrow={{ pointAtCenter: true }}
+    >
+      <Button
+        icon={<IoLanguageOutline className="w-6 h-6" />}
+        type="text"
+      ></Button>
+    </Dropdown>
   );
 };
-
-export default ChangeLang;
+export default changeLang;

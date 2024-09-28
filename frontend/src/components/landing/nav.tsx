@@ -1,13 +1,8 @@
 import { PiHeart } from "react-icons/pi";
-import { IoLanguageOutline } from "react-icons/io5";
-import { useState } from "react";
-import ChangeLang from "../changeLang";
-const nav = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
 
+import ChangeLang from "../changeLang";
+
+const nav = () => {
   return (
     <div>
       <div className="flex justify-end p-4 pr-5 text-white font-medium text-sm space-x-6 bg-[#25D366]">
@@ -33,14 +28,9 @@ const nav = () => {
           <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
             <PiHeart className="w-6 h-6" />
           </div>
-          <div className="relative">
-            <div
-              className="flex items-center border-black border-r-2 p-4 hover:cursor-pointer"
-              onClick={toggleDropdown}
-            >
-              <IoLanguageOutline className="w-6 h-6" />
-            </div>
-            {isOpen && <ChangeLang toggleDropdown={toggleDropdown} />}
+
+          <div className=" border-black border-r-2 px-4 flex items-center">
+            <ChangeLang />
           </div>
         </div>
       </div>
