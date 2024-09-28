@@ -12,7 +12,6 @@ import Quantity from "./chat/quantity";
 import processPayment from "../hooks/processPayment"; // Import the processPayment hook
 import "./chatbot.css";
 import { useStore } from "../store/store";
-import { error } from "console";
 
 const MyChatBot = () => {
   const form = useStore((state) => state.form);

@@ -8,7 +8,7 @@ const { Item } = Form;
 function TicketDetails({ type }: any) {
   const [submitting, setSubmitting] = useState(false);
   const theme = localStorage.getItem("theme") || "light";
-  const { messages, setMessages } = useMessages();
+  const { setMessages } = useMessages();
 
   const onFinish = async (values: any) => {
     setSubmitting(true);
