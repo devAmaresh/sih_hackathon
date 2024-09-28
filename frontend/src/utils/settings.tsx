@@ -5,6 +5,10 @@ const chatIcon = "images/icon1.jpg";
 const settings: Settings = {
   general: { embedded: false },
   chatHistory: { disabled: true },
+  chatWindow: {
+    autoJumpToBottom: true,
+    showMessagePrompt: false,
+  },
   header: {
     title: <Heading />,
     showAvatar: true,

@@ -228,11 +228,7 @@ const MyChatBot = () => {
       ),
       chatDisabled: true,
       path: () => {
-        if (ticketDetails.id) {
-          return "display_ticket_status";
-        } else {
-          return "error_email";
-        }
+        return "display_ticket_status";
       },
     },
     ask_ticket_id: {
@@ -247,59 +243,72 @@ const MyChatBot = () => {
         </>
       ),
       path: () => {
-        if (ticketDetails.id) {
-          return "display_ticket_status";
-        } else {
-          return "error_ticket_id";
-        }
+        return "display_ticket_status";
       },
       chatDisabled: true,
-    },
-    error_ticket_id: {
-      message:
-        "Sorry, we couldn't find any booking with this ticket ID. Please try again or exit.",
-      options: ["Try Again", "Exit"],
-      path: (params: any) => {
-        if (params.userInput === "Try Again") {
-          return "ask_ticket_id";
-        } else {
-          return "restart";
-        }
-      },
-      chatDisabled: true,
-    },
-    error_email: {
-      message:
-        "Sorry, we couldn't find any booking with this email ID. Please try again or exit.",
-      options: ["Try Again", "Exit"],
-      path: (params: any) => {
-        if (params.userInput === "Try Again") {
-          return "ask_email";
-        } else {
-          return "restart";
-        }
-      },
     },
     display_ticket_status: {
-      message: t("display_ticket"),
+      message: (_params: any) => {
+        console.log(ticketDetails);
+        if (ticketDetails.id) {
+          return "Here is the booking details.";
+        } else {
+          return "Sorry, we couldn't find any booking. Please try again or exit.";
+        }
+      },
       component: (
-        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
-          <div className="text-lg font-semibold text-gray-800">
-          {t("display_ticket")}
-          </div>
-          <div className="text-sm text-gray-600">
-            <div className="font-medium">Ticket ID: {ticketDetails.id}</div>
-            <div className="font-medium">Name: {ticketDetails.name}</div>
-            <div className="font-medium">Email: {ticketDetails.email}</div>
-            <div className="font-medium">
-              Visit Date: {ticketDetails.visiting_date}
+        <>
+          {ticketDetails.id && (
+            <div className="mx-4 p-6 mt-2 h-auto w-full border-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-gradient-to-r from-blue-100 to-blue-200 shadow-lg">
+              <div className="text-base font-bold text-gray-800 text-center">
+                {t("display_ticket")}
+              </div>
+              <div className="text-sm text-gray-700 space-y-2">
+                <div className="font-medium">
+                  Ticket ID:{" "}
+                  <span className="text-blue-600">{ticketDetails.id}</span>
+                </div>
+                <div className="font-medium">
+                  Name:{" "}
+                  <span className="text-blue-600">{ticketDetails.name}</span>
+                </div>
+                <div className="font-medium">
+                  Email:{" "}
+                  <span className="text-blue-600">{ticketDetails.email}</span>
+                </div>
+                <div className="font-medium">
+                  Visit Date:{" "}
+                  <span className="text-blue-600">
+                    {ticketDetails.visiting_date}
+                  </span>
+                </div>
+                <div className="font-medium">
+                  Child:{" "}
+                  <span className="text-blue-600 mr-1">
+                    {ticketDetails.child}
+                  </span>
+                  Adult:{" "}
+                  <span className="text-blue-600 mr-1">
+                    {ticketDetails.adult}
+                  </span>
+                  Senior:{" "}
+                  <span className="text-blue-600">{ticketDetails.senior}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       ),
-      options: [t("new_booking"), t("exit")],
-      path: (params: any) =>
-        params.userInput === t("new_booking") ? "ask_visit_date" : "restart",
+      options: [t("new_booking"), t("exit"), t("trackTickets")],
+      path: (params: any) => {
+        if (params.userInput === t("new_booking")) {
+          return "ask_visit_date";
+        } else if (params.userInput === t("trackTickets")) {
+          return "track_tickets";
+        } else {
+          return "restart";
+        }
+      },
     },
     restart: {
       transition: 0.00001,
