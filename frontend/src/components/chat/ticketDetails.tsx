@@ -76,7 +76,12 @@ function TicketDetails({ type }: any) {
           {/* Conditional rendering based on type */}
           <Item
             name={type === "email" ? "email" : "ticketId"}
-            rules={[{ required: true, message: `Please input the ${type}` }]}
+            rules={[
+              { required: true, message: `Please input the ${type}` },
+              type === "email"
+                ? { type: "email", message: "Invalid email" }
+                : { type: "string", message: "Invalid ticket ID" },
+            ]}
           >
             <Input
               type="text"

@@ -12,6 +12,7 @@ import Quantity from "./chat/quantity";
 import processPayment from "../hooks/processPayment"; // Import the processPayment hook
 import "./chatbot.css";
 import { useStore } from "../store/store";
+import { error } from "console";
 
 const MyChatBot = () => {
   const form = useStore((state) => state.form);
@@ -230,7 +231,13 @@ const MyChatBot = () => {
         </>
       ),
       chatDisabled: true,
-      path: "display_ticket_status",
+      path: () => {
+        if (ticketDetails.id) {
+          return "display_ticket_status";
+        } else {
+          return "error_email";
+        }
+      },
     },
     ask_ticket_id: {
       message: "Please enter your ticket ID to track your booking:",
@@ -243,8 +250,39 @@ const MyChatBot = () => {
           <TicketDetails type="ticket_id" />
         </>
       ),
-      path: "display_ticket_status",
+      path: () => {
+        if (ticketDetails.id) {
+          return "display_ticket_status";
+        } else {
+          return "error_ticket_id";
+        }
+      },
       chatDisabled: true,
+    },
+    error_ticket_id: {
+      message:
+        "Sorry, we couldn't find any booking with this ticket ID. Please try again or exit.",
+      options: ["Try Again", "Exit"],
+      path: (params: any) => {
+        if (params.userInput === "Try Again") {
+          return "ask_ticket_id";
+        } else {
+          return "restart";
+        }
+      },
+      chatDisabled: true,
+    },
+    error_email: {
+      message:
+        "Sorry, we couldn't find any booking with this email ID. Please try again or exit.",
+      options: ["Try Again", "Exit"],
+      path: (params: any) => {
+        if (params.userInput === "Try Again") {
+          return "ask_email";
+        } else {
+          return "restart";
+        }
+      },
     },
     display_ticket_status: {
       message: "Your ticket is confirmed for the following details:",
