@@ -13,7 +13,7 @@ const nav = () => {
       <hr className="border-[1px] border-black" /> */}
       <div className="flex justify-evenly font-semibold">
         <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
-          <div className="font-mono text-green-500">Mueseum</div>
+          <div className="font-mono text-green-500">Museum</div>
         </div>
         <div className="md:flex justify-center space-x-14 p-4 hidden ">
           <div className="">
