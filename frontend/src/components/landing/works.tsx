@@ -1,4 +1,4 @@
-import But from "./button/but";
+import WorkCard from "./works/workCard";
 const works = () => {
   return (
     <div className="p-10">
@@ -12,46 +12,29 @@ const works = () => {
           musical world.
         </div>
       </div>
-      <div className="grid md:grid-cols-3 grid-cols-1 mt-10">
-        <div className="md:col-span-2">
-          <div
-            className="border-2 border-black rounded-2xl  md:mr-72 p-6 bg-white"
-            style={{ boxShadow: "20px 20px 0px rgba(74 ,222 ,128, 1)" }}
-          >
-            <div className=" max-w-[52%]">
-              <div className="mb-3.5 font-semibold text-pretty text-2xl">
-                Exploration Through QR Code
-              </div>
-              <hr className="border-2 border-green-500" />
-            </div>
-            <div className="mt-2">
-              By scanning the QR code on a musical instrument with our app, you
-              will be taken on a unique journey of discovery. Immediately, you
-              will have the opportunity to listen to the sound of the
-              instrument, learn about how they are made, and explore the
-              historical and artistic stories behind each piece.
-            </div>
-            <div className="flex justify-between mt-7">
-              {/* <img src="images/sq.png" alt="square" /> */}
-              <div>
-                <div className="w-6 h-6 bg-yellow-300 border-[3px] border-black"></div>
-                <div className="flex ">
-                  <div className="ml-[23px] w-6 h-6 bg-yellow-300 border-[3px] border-black"></div>
-                </div>
-              </div>
-              <div>
-                <But text={"Read about feature"} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <img
-            src="https://img.freepik.com/free-vector/flat-background-international-museum-day_23-2150264413.jpg?t=st=1727526615~exp=1727530215~hmac=f16e5c650969003911b9a734fde9d3e9bac3e2109f29f9723d8ff2d0260c2c70&w=996"
-            alt="QR code"
-            className="rounded-full object-fit w-[300px] h-[300px] border-2 border-black"
-          />
-        </div>
+      <div className="md:px-20 ">
+        <WorkCard
+          imgSrc="https://img.freepik.com/free-photo/scene-with-young-children-playing-nature-outdoors_23-2151486583.jpg?t=st=1727529279~exp=1727532879~hmac=c2dffdd9922daa50b918be43ee4a8e6c675292c54634839e3ff71fe16af4b58c&w=740"
+          title="Exploration Through QR Code"
+          body="By scanning the QR code on a musical instrument with our app, you
+            will be taken on a unique journey of discovery. Immediately, you
+            will have the opportunity to listen to the sound of the instrument,
+            learn about how they are made, and explore the historical and
+            artistic stories behind each piece."
+          orientation="left"
+        />
+        <WorkCard
+          imgSrc="https://img.freepik.com/free-vector/organic-flat-person-meditating-peacefully_23-2148917335.jpg?t=st=1727530725~exp=1727534325~hmac=d91a5eb9ea247544536fd4856ecce361f822a0c1c598e125ff619d77bf5cbbac&w=740"
+          title="Book Your Tickets Effortlessly"
+          body="Skip the lines and book your tickets instantly through our chatbot! Just tell the chatbot your desired date and time, and it will handle the booking process for you. Experience the convenience of booking without waiting."
+          orientation="right"
+        />
+        <WorkCard
+          imgSrc="https://img.freepik.com/free-photo/3d-rendering-girl-skateboard_23-2150898806.jpg?t=st=1727530978~exp=1727534578~hmac=e06b531bf238e75f89da170b5f3d8b44c9b15dd9482417c9661051406b92fc8f&w=740"
+          title="Interactive Exhibits"
+          body="Immerse yourself in our interactive exhibits that engage all your senses! Explore art and culture through hands-on activities, multimedia displays, and guided tours. Discover the stories behind our collections and connect with history like never before."
+          orientation="left"
+        />
       </div>
     </div>
   );

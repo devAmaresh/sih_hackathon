@@ -13,7 +13,7 @@ const nav = () => {
         <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
           <div className="font-mono text-green-500">Mueseum</div>
         </div>
-        <div className="flex justify-center space-x-14 p-4">
+        <div className="md:flex justify-center space-x-14 p-4 hidden ">
           <div className="" ><a href="#works">How It Works</a></div>
           <div className="">Service</div>
           <div className="">Blog</div>
