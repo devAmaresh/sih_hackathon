@@ -1,5 +1,5 @@
 // ../components/MyChatBot.tsx
-
+import TicketDetails from "./chat/ticketDetails";
 import ChatBot, { Flow, Params, useFlow, useMessages } from "react-chatbotify";
 import settings from "../utils/settings";
 import styles from "../utils/styles";
@@ -30,7 +30,7 @@ const MyChatBot = () => {
           case "Book Tickets":
             return "ask_visit_date";
           case "Track Tickets":
-            return "ask_ticket_id";
+            return "track_tickets";
           default:
             return "start";
         }
@@ -99,7 +99,9 @@ const MyChatBot = () => {
     },
     ask_contact_info: {
       message: "Kindly fill in the details to proceed:",
-      component: <ContactForm handleContactFormSubmit={handleContactFormSubmit} />,
+      component: (
+        <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
+      ),
       options: ["Cancel"],
       function: (_params: Params) => {
         console.log(messages);
@@ -136,7 +138,8 @@ const MyChatBot = () => {
             <div className="font-medium">Email: {form.email}</div>
             <div className="font-medium">Contact Info: {form.phone}</div>
             <div className="font-medium">
-              Total Tickets: Child - {form.child}, Adult - {form.adult}, Senior - {form.senior}
+              Total Tickets: Child - {form.child}, Adult - {form.adult}, Senior
+              - {form.senior}
             </div>
           </div>
         </div>
@@ -167,7 +170,7 @@ const MyChatBot = () => {
               return "payment_failed";
             }
           } catch (error) {
-            console.error('Payment processing error:', error);
+            console.error("Payment processing error:", error);
             return "payment_failed";
           }
         }
@@ -175,13 +178,13 @@ const MyChatBot = () => {
     },
     payment_success: {
       message:
-        "Thank you! Your payment was successful. Your tickets have been booked. Would you like to start a new booking or track your tickets?",
+        "Thank you! Your payment was successful. Your tickets have been booked and mailed to you. Would you like to start a new booking or track your tickets?",
       options: ["New Booking", "Track Tickets", "Exit"],
       path: (params: any) => {
         if (params.userInput === "New Booking") {
           return "ask_visit_date";
         } else if (params.userInput === "Track Tickets") {
-          return "ask_ticket_id";
+          return "track_tickets";
         } else {
           return "restart";
         }
@@ -199,13 +202,49 @@ const MyChatBot = () => {
         }
       },
     },
+    track_tickets: {
+      message:
+        "You can track your ticket by entering your ticket ID or email address. How would you like to proceed?",
+      options: ["Enter Ticket ID", "Enter Email Address", "Exit"],
+      path: (params: any) => {
+        switch (params.userInput) {
+          case "Enter Ticket ID":
+            return "ask_ticket_id";
+          case "Enter Email Address":
+            return "ask_email";
+          default:
+            return "restart";
+        }
+      },
+      chatDisabled: true,
+    },
+    ask_email: {
+      message: "Please enter your email address to track your booking:",
+      function: async (params: any) => {
+        const res = await getTicketDetails("", params.userInput);
+        setTicketDetails(res);
+      },
+      component: (
+        <>
+          <TicketDetails type="email" />
+        </>
+      ),
+      chatDisabled: true,
+      path: "display_ticket_status",
+    },
     ask_ticket_id: {
       message: "Please enter your ticket ID to track your booking:",
       function: async (params: any) => {
-        const res = await getTicketDetails(params.userInput);
+        const res = await getTicketDetails(params.userInput, "");
         setTicketDetails(res);
       },
+      component: (
+        <>
+          <TicketDetails type="ticket_id" />
+        </>
+      ),
       path: "display_ticket_status",
+      chatDisabled: true,
     },
     display_ticket_status: {
       message: "Your ticket is confirmed for the following details:",

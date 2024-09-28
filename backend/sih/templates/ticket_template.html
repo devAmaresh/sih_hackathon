@@ -4,66 +4,88 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ticket</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-      }
-      .ticket {
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    "
+  >
+    <div
+      class="ticket"
+      style="
         background-color: #fff;
-        border: 1px solid #ddd;
+        border: 2px dashed #d83565;
         border-radius: 5px;
         padding: 20px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         width: 300px;
         margin: auto;
-      }
-      .ticket-header {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .ticket-header h1 {
-        font-size: 24px;
-        color: #d83565;
-      }
-      .ticket-info {
-        margin-bottom: 20px;
-      }
-      .ticket-info p {
-        margin: 5px 0;
-      }
-      .qr-code {
-        text-align: center;
-      }
-      .qr-code img {
-        width: 100px;
-        height: 100px;
-      }
-      .ticket-footer {
-        text-align: center;
-        font-size: 12px;
-        color: gray;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="ticket">
-      <div class="ticket-header">
-        <h1>Museum Ticket</h1>
-        <h2>{{ booking.name }}</h2>
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <div
+        class="ticket-header"
+        style="text-align: center; margin-bottom: 10px"
+      >
+        <h1 style="font-size: 24px; color: #d83565">Museum Ticket</h1>
+        <h2 style="font-size: 20px; margin: 5px 0">{{ booking.name }}</h2>
       </div>
-      <div class="ticket-info">
-        <p><strong>Date:</strong> {{ formatted_date }}</p>
-        <p><strong>Day:</strong> {{ day_of_week }}</p>
-        <p><strong>Year:</strong> {{ year }}</p>
-        <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+      <div class="ticket-info" style="margin-bottom: 20px">
+        <p style="margin: 5px 0"><strong>Date:</strong> {{ formatted_date }}</p>
+        <p style="margin: 5px 0"><strong>Day:</strong> {{ day_of_week }}</p>
+        <p style="margin: 5px 0"><strong>Year:</strong> {{ year }}</p>
+        <p style="margin: 5px 0">
+          <strong>Booking ID:</strong> {{ booking.id }}
+        </p>
       </div>
-      <div class="qr-code">
-        <img src="{{ qr_code_data_url }}" alt="QR Code" />
+      <div
+        class="attendee-info"
+        style="display: flex; justify-content: space-between; margin: 10px 0"
+      >
+        <div style="text-align: center; flex: 1">
+          <strong>Adults:</strong> {{ booking.adult }}
+        </div>
+        <div style="text-align: center; flex: 1">
+          <strong>Children:</strong> {{ booking.child }}
+        </div>
+        <div style="text-align: center; flex: 1">
+          <strong>Seniors:</strong> {{ booking.senior }}
+        </div>
       </div>
-      <div class="ticket-footer">
+      <div
+        class="amount"
+        style="
+          text-align: center;
+          font-size: 18px;
+          color: #4a437e;
+          margin: 10px 0;
+          border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          padding: 10px 0;
+        "
+      >
+        <strong>Amount: Rs.{{ booking.amount }}</strong>
+      </div>
+      <div class="qr-code" style="text-align: center">
+        <img
+          src="{{ qr_code_data_url }}"
+          alt="QR Code"
+          style="width: 200px; height: 200px"
+        />
+      </div>
+      <div
+        class="ticket-footer"
+        style="
+          text-align: center;
+          font-size: 12px;
+          color: gray;
+          margin-top: 10px;
+        "
+      >
         <p>We look forward to welcoming you!</p>
       </div>
     </div>
