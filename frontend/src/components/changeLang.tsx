@@ -9,7 +9,7 @@ const changeLang = () => {
   const handleLanguageChange = (lang: string, langName: string) => {
     i18n.changeLanguage(lang);
     setSelectedLang(lang);
-    message.success(`Language Changed to ${langName}`);
+    message.success(`Chatbot language Changed to ${langName}`);
   };
   const items: MenuProps["items"] = [
     {
