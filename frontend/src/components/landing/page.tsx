@@ -4,12 +4,14 @@ import Button from "./button";
 import Works from "./works";
 import Card from "./card";
 import Footer from "./footer";
+import Gallery from "./gallery";
 const page = () => {
   return (
     <div className="w-full h-full">
       <Nav />
       <Head />
-      <Button />
+      {/* <Button /> */}
+      <Gallery/>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10 p-4 md:px-20 mt-10">
         <Card
           title="Explore the Museum"

@@ -21,7 +21,7 @@ const nav = () => {
           </div>
           <div className="">Service</div>
           <div className="">Blog</div>
-          <div className="">Community</div>
+          <div className=""> <a href="#gallery">Gallery</a></div>
           <div className="">About Us</div>
         </div>
         <div className="flex">
