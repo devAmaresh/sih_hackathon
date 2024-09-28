@@ -19,6 +19,8 @@ const styles: Styles = {
     backgroundColor: "rgb(240, 242, 247)",
     color: "#000000",
     borderRadius: "20px 20px 20px 0px",
+    maxWidth: "80%",
+
   },
   userBubbleStyle: {
     background:

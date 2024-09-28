@@ -53,6 +53,7 @@ const settings: Settings = {
   },
   botBubble: {
     animate: false,
+    dangerouslySetInnerHtml: true,
   },
   emoji: {
     disabled: true,

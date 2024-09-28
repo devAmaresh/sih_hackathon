@@ -13,6 +13,7 @@ import processPayment from "../hooks/processPayment"; // Import the processPayme
 import "./chatbot.css";
 import { useStore } from "../store/store";
 import { useTranslation } from "react-i18next";
+import getGeminiResponse from "../hooks/getGeminiResponse";
 const MyChatBot = () => {
   const { t } = useTranslation();
   const form = useStore((state) => state.form);
@@ -33,7 +34,7 @@ const MyChatBot = () => {
           case t("trackTickets"):
             return "track_tickets";
           default:
-            return "start";
+            return "loop";
         }
       },
     },
@@ -316,6 +317,27 @@ const MyChatBot = () => {
         restartFlow();
       },
       chatDisabled: true,
+    },
+    loop: {
+      message: async (params: any) => {
+        const res = await getGeminiResponse(params.userInput);
+        return res;
+      },
+      options: [t("info"), t("bookTickets"), t("trackTickets"), t("exit")],
+      path: (params: any) => {
+        switch (params.userInput) {
+          case t("info"):
+            return "provide_info";
+          case t("bookTickets"):
+            return "ask_visit_date";
+          case t("trackTickets"):
+            return "track_tickets";
+          case t("exit"):
+            return "restart";
+          default:
+            return "loop";
+        }
+      },
     },
   };
 
