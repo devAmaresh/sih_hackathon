@@ -5,12 +5,12 @@ import ChangeLang from "../changeLang";
 const nav = () => {
   return (
     <div>
-      <div className="flex justify-end p-4 pr-5 text-white font-medium text-sm space-x-6 bg-[#25D366]">
+      {/* <div className="flex justify-end p-4 pr-5 text-white font-medium text-sm space-x-6 bg-[#25D366]">
         <div className="">Sign In</div>
         <div className="">Join Us</div>
         <div className="">Help</div>
       </div>
-      <hr className="border-[1px] border-black" />
+      <hr className="border-[1px] border-black" /> */}
       <div className="flex justify-evenly font-semibold">
         <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
           <div className="font-mono text-green-500">Mueseum</div>

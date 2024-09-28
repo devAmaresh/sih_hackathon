@@ -6,7 +6,7 @@ import Card from "./card";
 import Footer from "./footer";
 const page = () => {
   return (
-    <div className="bg-[#fffddf] w-full h-full">
+    <div className="w-full h-full">
       <Nav />
       <Head />
       <Button />

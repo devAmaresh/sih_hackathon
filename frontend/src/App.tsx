@@ -19,7 +19,7 @@ function App() {
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   return (
     <>
-      <div className="w-full h-full bg-[#fffddf]">
+      <div className="w-full h-full bg-[#FCF5EB]">
         <Page />
         <Chat key={currentLanguage} />
       </div>
