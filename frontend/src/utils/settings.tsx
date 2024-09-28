@@ -35,7 +35,7 @@ const settings: Settings = {
     buttons: [Button.FILE_ATTACHMENT_BUTTON, Button.EMOJI_PICKER_BUTTON],
   },
   tooltip: {
-    mode: "START",
+    mode: "NEVER",
     text: "I'm here to assist you !",
   },
   notification: {

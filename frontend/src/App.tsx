@@ -1,12 +1,27 @@
 import Chat from "./components/chat";
-import Spline from "@splinetool/react-spline";
-
+import ChangeLang from "./components/changeLang";
+import i18n from "./utils/i18n";
+import { useEffect, useState } from "react";
+import Page from "./components/landing/page";
 function App() {
+  useEffect(() => {
+    const handleLanguageChange = (lng: any) => {
+      console.log("Language changed to:", lng);
+      setCurrentLanguage(lng);
+    };
+
+    i18n.on("languageChanged", handleLanguageChange);
+
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange);
+    };
+  }, []);
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   return (
     <>
-      <div className="w-screen h-screen bg-black">
-        <Spline scene="https://prod.spline.design/vt0QAKKnXoMvq2sk/scene.splinecode" />
-        <Chat />
+      <div className="w-full h-full bg-[#fffddf]">
+        <Page />
+        <Chat key={currentLanguage} />
       </div>
     </>
   );

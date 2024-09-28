@@ -12,8 +12,9 @@ import Quantity from "./chat/quantity";
 import processPayment from "../hooks/processPayment"; // Import the processPayment hook
 import "./chatbot.css";
 import { useStore } from "../store/store";
-
+import { useTranslation } from "react-i18next";
 const MyChatBot = () => {
+  const { t } = useTranslation();
   const form = useStore((state) => state.form);
   const { restartFlow } = useFlow();
   const [ticketDetails, setTicketDetails] = useState<any>({});
@@ -21,15 +22,15 @@ const MyChatBot = () => {
 
   const flow: Flow = {
     start: {
-      message: "Welcome to the Museum! How can we assist you today?",
-      options: ["Info", "Book Tickets", "Track Tickets"],
+      message: t("welcome"),
+      options: [t("info"), t("bookTickets"), t("trackTickets")],
       path: (params: any) => {
         switch (params.userInput) {
-          case "Info":
+          case t("info"):
             return "provide_info";
-          case "Book Tickets":
+          case t("bookTickets"):
             return "ask_visit_date";
-          case "Track Tickets":
+          case t("trackTickets"):
             return "track_tickets";
           default:
             return "start";
@@ -37,23 +38,21 @@ const MyChatBot = () => {
       },
     },
     provide_info: {
-      message:
-        "Our museum is open from 9 AM to 6 PM, Monday to Sunday. Admission is free for children under 12. Would you like to know more or book a ticket?",
-      options: ["More Info", "Book Tickets"],
+      message: t("provide_info"),
+      options: [t("more_info"), t("bookTickets")],
       path: (params: any) =>
-        params.userInput === "More Info"
+        params.userInput === t("more_info")
           ? "provide_more_info"
           : "ask_visit_date",
     },
     provide_more_info: {
-      message:
-        "The museum offers various exhibitions, guided tours, and workshops. Visit our website for more details. Would you like to book tickets now?",
-      options: ["Yes", "No"],
+      message: t("provide_more_info"),
+      options: [t("yes"), t("no")],
       path: (params: any) =>
-        params.userInput === "Yes" ? "ask_visit_date" : "start",
+        params.userInput === t("yes") ? "ask_visit_date" : "start",
     },
     ask_visit_date: {
-      message: "Please select the date of your visit:",
+      message: t("select_date"),
       component: <DatePick />,
       chatDisabled: true,
       function: (_params: Params) => {
@@ -72,7 +71,7 @@ const MyChatBot = () => {
       path: "ask_num_tickets",
     },
     ask_num_tickets: {
-      message: "How many tickets would you like to book?",
+      message: t("select_tickets"),
       component: <Quantity />,
       options: ["Cancel"],
       function: (_params: Params) => {
@@ -89,7 +88,7 @@ const MyChatBot = () => {
         });
       },
       path: (params: any) => {
-        if (params.userInput === "Cancel") {
+        if (params.userInput === t("cancel")) {
           return "restart";
         } else {
           return "ask_contact_info";
@@ -98,11 +97,10 @@ const MyChatBot = () => {
       chatDisabled: true,
     },
     ask_contact_info: {
-      message: "Kindly fill in the details to proceed:",
+      message: t("fill_contact"),
       component: (
         <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
       ),
-      options: ["Cancel"],
       function: (_params: Params) => {
         console.log(messages);
         setMessages((prevMessages) => {
@@ -116,8 +114,9 @@ const MyChatBot = () => {
           return newMessages;
         });
       },
+      options: [t("cancel")],
       path: (params: any) => {
-        if (params.userInput === "Cancel") {
+        if (params.userInput === t("cancel")) {
           return "restart";
         } else {
           return "confirm_booking";
@@ -126,7 +125,7 @@ const MyChatBot = () => {
       chatDisabled: true,
     },
     confirm_booking: {
-      message: "You have selected the following tickets:",
+      message: t("confirm_booking"),
       component: (
         <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
           <div className="text-lg font-semibold text-gray-800">
@@ -144,9 +143,9 @@ const MyChatBot = () => {
           </div>
         </div>
       ),
-      options: ["Confirm & Pay", "Cancel"],
+      options: [t("confirm_and_pay"), t("cancel")],
       path: async (params: any) => {
-        if (params.userInput === "Cancel") {
+        if (params.userInput === t("cancel")) {
           return "restart";
         } else {
           try {
@@ -177,13 +176,12 @@ const MyChatBot = () => {
       },
     },
     payment_success: {
-      message:
-        "Thank you! Your payment was successful. Your tickets have been booked and mailed to you. Would you like to start a new booking or track your tickets?",
-      options: ["New Booking", "Track Tickets", "Exit"],
+      message: t("booking_confirmed"),
+      options: [t("new_booking"), t("trackTickets"), t("exit")],
       path: (params: any) => {
-        if (params.userInput === "New Booking") {
+        if (params.userInput === t("new_booking")) {
           return "ask_visit_date";
-        } else if (params.userInput === "Track Tickets") {
+        } else if (params.userInput === t("trackTickets")) {
           return "track_tickets";
         } else {
           return "restart";
@@ -191,26 +189,25 @@ const MyChatBot = () => {
       },
     },
     payment_failed: {
-      message:
-        "Sorry, your payment was unsuccessful. Would you like to try again or cancel?",
-      options: ["Try Again", "Cancel"],
+      message: t("payment_failed"),
+      options: [t("try_again"), t("cancel")],
       path: (params: any) => {
-        if (params.userInput === "Try Again") {
+        if (params.userInput === t("try_again")) {
           return "confirm_booking";
         } else {
           return "restart";
         }
       },
+      chatDisabled: true,
     },
     track_tickets: {
-      message:
-        "You can track your ticket by entering your ticket ID or email address. How would you like to proceed?",
-      options: ["Enter Ticket ID", "Enter Email Address", "Exit"],
+      message: t("enter_ticket_email"),
+      options: [t("track_id"), t("track_email"), t("exit")],
       path: (params: any) => {
         switch (params.userInput) {
-          case "Enter Ticket ID":
+          case t("track_id"):
             return "ask_ticket_id";
-          case "Enter Email Address":
+          case t("track_email"):
             return "ask_email";
           default:
             return "restart";
@@ -219,7 +216,7 @@ const MyChatBot = () => {
       chatDisabled: true,
     },
     ask_email: {
-      message: "Please enter your email address to track your booking:",
+      message: t("track_email"),
       function: async (params: any) => {
         const res = await getTicketDetails("", params.userInput);
         setTicketDetails(res);
@@ -239,7 +236,7 @@ const MyChatBot = () => {
       },
     },
     ask_ticket_id: {
-      message: "Please enter your ticket ID to track your booking:",
+      message: t("track_id"),
       function: async (params: any) => {
         const res = await getTicketDetails(params.userInput, "");
         setTicketDetails(res);
@@ -284,11 +281,11 @@ const MyChatBot = () => {
       },
     },
     display_ticket_status: {
-      message: "Your ticket is confirmed for the following details:",
+      message: t("display_ticket"),
       component: (
         <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
           <div className="text-lg font-semibold text-gray-800">
-            Booking Summary
+          {t("display_ticket")}
           </div>
           <div className="text-sm text-gray-600">
             <div className="font-medium">Ticket ID: {ticketDetails.id}</div>
@@ -300,9 +297,9 @@ const MyChatBot = () => {
           </div>
         </div>
       ),
-      options: ["New Booking", "Exit"],
+      options: [t("new_booking"), t("exit")],
       path: (params: any) =>
-        params.userInput === "New Booking" ? "ask_visit_date" : "restart",
+        params.userInput === t("new_booking") ? "ask_visit_date" : "restart",
     },
     restart: {
       transition: 0.00001,
