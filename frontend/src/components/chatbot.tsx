@@ -263,7 +263,7 @@ const MyChatBot = () => {
       component: (
         <>
           {ticketDetails.id && (
-            <div className="mx-4 p-6 mt-2 h-auto w-full border-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-gradient-to-r from-blue-100 to-blue-200 shadow-lg">
+            <div className="mx-4 p-6 mt-2 h-auto w-full border-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-amber-50 shadow-lg">
               <div className="text-base font-bold text-gray-800 text-center">
                 {t("display_ticket")}
               </div>

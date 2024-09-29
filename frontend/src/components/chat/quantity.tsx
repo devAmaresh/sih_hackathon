@@ -137,8 +137,8 @@ function quantity() {
               style={{ width: "100%", height: "36px" }}
               className={`${
                 theme === "dark"
-                  ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-blue-200 text-black hover:bg-blue-300"
+                  ? "bg-[#8B5B29] text-white hover:bg-[#A96A3A]"
+                  : "bg-[#FCE9D7] text-black hover:bg-[#F8D6C0]"
               }`}
             >
               {submitting ? (

@@ -1,6 +1,6 @@
 import { Button, Settings } from "react-chatbotify";
 import Heading from "../components/chat/heading";
-const chatIcon = "images/icon1.jpg";
+const chatIcon = "images/icon1.svg";
 
 const settings: Settings = {
   general: { embedded: false },
