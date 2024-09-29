@@ -36,7 +36,7 @@ const Gallery = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextImages();
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [currentIndex]);
