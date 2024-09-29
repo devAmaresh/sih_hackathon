@@ -36,7 +36,7 @@ const Gallery = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextImages();
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [currentIndex]);
@@ -70,7 +70,7 @@ const Gallery = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center gap-4">
           {displayedImages.map((image, index) => (
             <div
-              className="h-64 sm:h-80 lg:h-96 border-2 border-black  w-full overflow-hidden relative"
+              className="h-64 sm:h-80 lg:h-80 border-2 border-black  w-full overflow-hidden relative"
               key={index}
             >
               <img
@@ -88,7 +88,7 @@ const Gallery = () => {
                   window.open("https://en.wikipedia.org/wiki/Museum", "_blank");
                 }}
               >
-                <div className="text-center mt-36 px-10 font-serif">
+                <div className="text-center mt-28 px-10 font-serif">
                   <p className="text-lg font-semibold">{image.caption}</p>
                   <p className="text-sm">{image.description}</p>
                 </div>
