@@ -77,24 +77,32 @@ class BookingDetails(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         booking_id = self.request.query_params.get("booking_id", None)
         email = self.request.query_params.get("email", None)
+
         if not booking_id and not email:
             return Response(
                 {"message": "Booking ID or email is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         try:
             if booking_id:
+                # Retrieve a single booking by ID
                 booking = Booking.objects.get(id=booking_id)
+                serializer = self.get_serializer(booking)
+                return Response(serializer.data)
+
             elif email:
-                booking = Booking.objects.get(email=email)
+                # Retrieve multiple bookings by email
+                bookings = Booking.objects.filter(email=email)
+                serializer = self.get_serializer(
+                    bookings, many=True
+                )  # Use many=True for multiple objects
+                return Response(serializer.data)
 
         except Booking.DoesNotExist:
             return Response(
                 {"message": "Booking not found"}, status=status.HTTP_404_NOT_FOUND
             )
-
-        serializer = self.get_serializer(booking)
-        return Response(serializer.data)
 
 
 class TicketVerification(APIView):
@@ -206,7 +214,7 @@ class GeminiApiText(APIView):
     def post(self, request):
         input_text = request.data.get("input", "")
         lang = request.data.get("lang", "en")
-        response = get_gemini_response(input_text,lang)
+        response = get_gemini_response(input_text, lang)
         return Response({"response": response}, status=status.HTTP_200_OK)
 
 
@@ -216,10 +224,10 @@ class GeminiApiFile(APIView):
     def post(self, request):
         input_file = request.FILES.get("file", None)
         lang = request.data.get("lang", "en")
-        
+
         if not input_file:
             return Response(
                 {"message": "File not found"}, status=status.HTTP_400_BAD_REQUEST
             )
-        response = get_gemini_response_file(input_file,lang)
+        response = get_gemini_response_file(input_file, lang)
         return Response({"response": response}, status=status.HTTP_200_OK)

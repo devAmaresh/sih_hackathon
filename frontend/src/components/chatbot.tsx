@@ -254,7 +254,7 @@ const MyChatBot = () => {
     display_ticket_status: {
       message: (_params: any) => {
         console.log(ticketDetails);
-        if (ticketDetails.id) {
+        if (ticketDetails[0].id) {
           return "Here is the booking details.";
         } else {
           return "Sorry, we couldn't find any booking. Please try again or exit.";
@@ -262,43 +262,46 @@ const MyChatBot = () => {
       },
       component: (
         <>
-          {ticketDetails.id && (
-            <div className="mx-4 p-6 mt-2 h-auto w-full border-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-amber-50 shadow-lg">
-              <div className="text-base font-bold text-gray-800 text-center">
+          {ticketDetails.length > 0 && (
+            <div className="mx-4 p-6 mt-2 h-auto w-full border-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB] shadow-lg">
+              <div className="text-base font-bold text-gray-800 text-center mb-4">
                 {t("display_ticket")}
               </div>
-              <div className="text-sm text-gray-700 space-y-2">
-                <div className="font-medium">
-                  Ticket ID:{" "}
-                  <span className="text-blue-600">{ticketDetails.id}</span>
+              {ticketDetails.map((ticket:any, index:any) => (
+                <div
+                  key={index}
+                  className="text-sm text-gray-700 border-b-2 pb-4 mb-4"
+                >
+                  <div className="font-medium">
+                    Ticket ID:{" "}
+                    <span className="text-blue-600">{ticket.id}</span>
+                  </div>
+                  <div className="font-medium">
+                    Name: <span className="text-blue-600">{ticket.name}</span>
+                  </div>
+                  <div className="font-medium">
+                    Email: <span className="text-blue-600">{ticket.email}</span>
+                  </div>
+                  <div className="font-medium">
+                    Visit Date:{" "}
+                    <span className="text-blue-600">
+                      {ticket.visiting_date}
+                    </span>
+                  </div>
+                  <div className="font-medium">
+                    Child:{" "}
+                    <span className="text-blue-600 mr-1">{ticket.child}</span>
+                    Adult:{" "}
+                    <span className="text-blue-600 mr-1">{ticket.adult}</span>
+                    Senior:{" "}
+                    <span className="text-blue-600">{ticket.senior}</span>
+                  </div>
+                  <div className="font-medium">
+                    Amount:{" "}
+                    <span className="text-blue-600">Rs.{ticket.amount}</span>
+                  </div>
                 </div>
-                <div className="font-medium">
-                  Name:{" "}
-                  <span className="text-blue-600">{ticketDetails.name}</span>
-                </div>
-                <div className="font-medium">
-                  Email:{" "}
-                  <span className="text-blue-600">{ticketDetails.email}</span>
-                </div>
-                <div className="font-medium">
-                  Visit Date:{" "}
-                  <span className="text-blue-600">
-                    {ticketDetails.visiting_date}
-                  </span>
-                </div>
-                <div className="font-medium">
-                  Child:{" "}
-                  <span className="text-blue-600 mr-1">
-                    {ticketDetails.child}
-                  </span>
-                  Adult:{" "}
-                  <span className="text-blue-600 mr-1">
-                    {ticketDetails.adult}
-                  </span>
-                  Senior:{" "}
-                  <span className="text-blue-600">{ticketDetails.senior}</span>
-                </div>
-              </div>
+              ))}
             </div>
           )}
         </>
