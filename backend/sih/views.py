@@ -195,3 +195,28 @@ class PaymentHandler(generics.CreateAPIView):
                 {"message": "Payment unsuccessful", "error": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+from .gemini import get_gemini_response, get_gemini_response_file
+
+
+class GeminiApiText(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        input_text = request.data.get("input", "")
+        response = get_gemini_response(input_text)
+        return Response({"response": response}, status=status.HTTP_200_OK)
+
+
+class GeminiApiFile(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        input_file = request.FILES.get("file", None)
+        if not input_file:
+            return Response(
+                {"message": "File not found"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        response = get_gemini_response_file(input_file)
+        return Response({"response": response}, status=status.HTTP_200_OK)

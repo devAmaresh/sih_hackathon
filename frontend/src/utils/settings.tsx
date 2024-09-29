@@ -58,5 +58,11 @@ const settings: Settings = {
   emoji: {
     disabled: true,
   },
+  fileAttachment: {
+    disabled: false,
+    accept: "image/*",
+    showMediaDisplay: true,
+    sendFileName: false,
+  },
 };
 export default settings;

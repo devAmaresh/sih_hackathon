@@ -13,14 +13,15 @@ import processPayment from "../hooks/processPayment"; // Import the processPayme
 import "./chatbot.css";
 import { useStore } from "../store/store";
 import { useTranslation } from "react-i18next";
-import getGeminiResponse from "../hooks/getGeminiResponse";
+import getGeminiText from "../hooks/getGeminiText";
+import getGeminiFile from "../hooks/getGeminiFile";
 const MyChatBot = () => {
   const { t } = useTranslation();
   const form = useStore((state) => state.form);
   const { restartFlow } = useFlow();
   const [ticketDetails, setTicketDetails] = useState<any>({});
   const { messages, setMessages } = useMessages();
-
+  const [file, setFile] = useState<any>(null);
   const flow: Flow = {
     start: {
       message: t("welcome"),
@@ -322,8 +323,22 @@ const MyChatBot = () => {
     },
     loop: {
       message: async (params: any) => {
-        const res = await getGeminiResponse(params.userInput);
+        if (file) {
+          const res = await getGeminiFile(file);
+          setFile(null);
+          const fileInput = document.querySelector(
+            ".rcb-chat-footer input[type='file']"
+          ) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = "";
+          }
+          return res;
+        }
+        const res = await getGeminiText(params.userInput);
         return res;
+      },
+      file: async (params: any) => {
+        setFile(params.files[0]);
       },
       options: [t("info"), t("bookTickets"), t("trackTickets"), t("exit")],
       path: (params: any) => {
