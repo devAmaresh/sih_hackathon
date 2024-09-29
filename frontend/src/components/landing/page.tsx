@@ -12,7 +12,7 @@ const page = () => {
       <Head />
       {/* <Button /> */}
       <Gallery/>
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-10 p-4 md:px-20 mt-10">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-10 p-4 md:px-20 mt-10 mb-8 font-serif">
         <Card
           title="Explore the Museum"
           body="Discover the rich history and culture at our museum, where artifacts come to life through interactive displays and guided tours. We offer a unique experience for visitors of all ages."
@@ -27,10 +27,12 @@ const page = () => {
         />
       </div>
 
-      <div id="works">
+      <div id="works" className="font-serif">
         <Works />
       </div>
+      <div className="">
       <Footer />
+      </div>
     </div>
   );
 };

@@ -3,20 +3,22 @@ const workCard = ({ imgSrc, title, body, orientation }: any) => {
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 mt-10">
       {orientation === "right" && (
-        <div className="md:flex justify-center mt-10 md:mt-0 md:mr-10 hidden">
+        <div className="md:flex justify-center mt-10 md:mt-0 md:ml-10 hidden">
           <img
             src={imgSrc}
             alt="QR code"
-            className=" object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
+            className="object-cover w-auto h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
           />
         </div>
       )}
-      <div className="md:col-span-2">
+      <div className={`md:col-span-2`}>
         <div
-          className="border-2 border-black   md:mr-44 p-6 bg-white"
+          className={`border-2 border-black  p-6 bg-white ${
+            orientation === "right" ? "md:ml-44" : "md:mr-44"
+          }`}
           style={{ boxShadow: "20px 20px 0px rgba(200, 180, 160, 0.5)" }}
         >
-          <div className=" max-w-[52%]">
+          <div className=" max-w-[55%]">
             <div className="mb-3.5 font-semibold text-pretty text-2xl">
               {title}
             </div>
@@ -26,9 +28,9 @@ const workCard = ({ imgSrc, title, body, orientation }: any) => {
           <div className="flex justify-between mt-7">
             {/* <img src="images/sq.png" alt="square" /> */}
             <div>
-              <div className="w-6 h-6 bg-yellow-300 border-[3px] border-black"></div>
+              <div className="w-6 h-6 bg-[#F7E7CE] border-[3px] border-black"></div>
               <div className="flex ">
-                <div className="ml-[23px] w-6 h-6 bg-yellow-300 border-[3px] border-black"></div>
+                <div className="ml-[23px] w-6 h-6 bg-[#F7E7CE] border-[3px] border-black"></div>
               </div>
             </div>
             <div>
@@ -42,7 +44,7 @@ const workCard = ({ imgSrc, title, body, orientation }: any) => {
           <img
             src={imgSrc}
             alt="QR code"
-            className=" object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
+            className=" object-cover w-auto h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
           />
         </div>
       )}
