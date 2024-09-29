@@ -1,6 +1,5 @@
 import Nav from "./nav";
 import Head from "./head";
-import Button from "./button";
 import Works from "./works";
 import Card from "./card";
 import Footer from "./footer";
@@ -8,10 +7,12 @@ import Gallery from "./gallery";
 const page = () => {
   return (
     <div className="w-full h-full">
-      <Nav />
+      <div className="relative">
+        <Nav />
+      </div>
       <Head />
       {/* <Button /> */}
-      <Gallery/>
+      <Gallery />
       <div className="grid md:grid-cols-3 grid-cols-1 gap-10 p-4 md:px-20 mt-10 mb-8 font-serif">
         <Card
           title="Explore the Museum"
@@ -27,11 +28,11 @@ const page = () => {
         />
       </div>
 
-      <div id="works" className="font-serif">
-        <Works />
+      <div className="font-serif pt-5" id="works">
+          <Works />
       </div>
       <div className="">
-      <Footer />
+        <Footer />
       </div>
     </div>
   );

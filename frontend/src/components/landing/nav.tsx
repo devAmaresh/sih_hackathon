@@ -1,42 +1,35 @@
 import { PiHeart } from "react-icons/pi";
-
 import ChangeLang from "../changeLang";
 
-const nav = () => {
+const Nav = () => {
   return (
     <div>
-      {/* <div className="flex justify-end p-4 pr-5 text-white font-medium text-sm space-x-6 bg-[#25D366]">
-        <div className="">Sign In</div>
-        <div className="">Join Us</div>
-        <div className="">Help</div>
-      </div>
-      <hr className="border-[1px] border-black" /> */}
-      <div className="flex justify-evenly font-semibold">
-        <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-evenly font-semibold bg-transparent backdrop-blur-xl">
+        <div className="flex items-center  border-black p-4">
           <div className="font-mono text-green-500">Museum</div>
         </div>
-        <div className="md:flex justify-center space-x-14 p-4 hidden ">
-          <div className="">
+        <div className="md:flex justify-center space-x-14 p-4 hidden">
+          <div>
             <a href="#works">How It Works</a>
           </div>
-          <div className="">Service</div>
-          <div className="">Blog</div>
-          <div className=""> <a href="#gallery">Gallery</a></div>
-          <div className="">About Us</div>
+          <div>Service</div>
+          <div>Blog</div>
+          <div>
+            <a href="#gallery">Gallery</a>
+          </div>
+          <div>About Us</div>
         </div>
         <div className="flex">
-          <div className="flex items-center border-l-2 border-black border-r-2 p-4 ">
+          <div className="flex items-center  border-black  p-4">
             <PiHeart className="w-6 h-6" />
           </div>
-
-          <div className=" border-black border-r-2 px-4 flex items-center">
+          <div className="border-black px-4 flex items-center">
             <ChangeLang />
           </div>
         </div>
       </div>
-      <hr className="border-[1px] border-black" />
     </div>
   );
 };
 
-export default nav;
+export default Nav;

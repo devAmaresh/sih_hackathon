@@ -52,7 +52,7 @@ const Gallery = () => {
   const currentSet = Math.floor(currentIndex / 3);
 
   return (
-    <div className="mt-10 p-5" id="gallery" {...handlers}>
+    <div className="mt-10 p-5 pt-8" id="gallery" {...handlers}>
       <div className="text-5xl font-semibold text-center font-serif p-5">
         Gallery
       </div>

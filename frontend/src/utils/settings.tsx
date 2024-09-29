@@ -3,7 +3,7 @@ import Heading from "../components/chat/heading";
 const chatIcon = "images/icon1.svg";
 
 const settings: Settings = {
-  general: { embedded: false },
+  general: { embedded: false, mobileEnabled: true },
   chatHistory: { disabled: true },
   chatWindow: {
     autoJumpToBottom: true,
