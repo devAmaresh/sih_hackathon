@@ -1,17 +1,19 @@
 import axios from "axios";
+import i18n from "../utils/i18n";
 
 const getGeminiFile = async (input: File) => {
   try {
-    // Create a FormData object
     const formData = new FormData();
     formData.append("file", input);
+
+    formData.append("lang", i18n.language);
 
     const response = await axios.post(
       `http://localhost:8000/api/gemini-file/`,
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data", 
+          "Content-Type": "multipart/form-data",
         },
       }
     );

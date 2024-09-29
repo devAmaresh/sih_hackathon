@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18n from "../utils/i18n";
 
 const getGeminiText = async (input: string) => {
   try {
@@ -6,6 +7,7 @@ const getGeminiText = async (input: string) => {
       `http://localhost:8000/api/gemini-text/`,
       {
         input: input,
+        lang: i18n.language,
       },
       {
         headers: {

@@ -205,7 +205,8 @@ class GeminiApiText(APIView):
 
     def post(self, request):
         input_text = request.data.get("input", "")
-        response = get_gemini_response(input_text)
+        lang = request.data.get("lang", "en")
+        response = get_gemini_response(input_text,lang)
         return Response({"response": response}, status=status.HTTP_200_OK)
 
 
@@ -214,9 +215,11 @@ class GeminiApiFile(APIView):
 
     def post(self, request):
         input_file = request.FILES.get("file", None)
+        lang = request.data.get("lang", "en")
+        
         if not input_file:
             return Response(
                 {"message": "File not found"}, status=status.HTTP_400_BAD_REQUEST
             )
-        response = get_gemini_response_file(input_file)
+        response = get_gemini_response_file(input_file,lang)
         return Response({"response": response}, status=status.HTTP_200_OK)
