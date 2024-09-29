@@ -1,93 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ticket</title>
-  </head>
-  <body
-    style="
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    "
-  >
-    <div
-      class="ticket"
-      style="
-        background-color: #fff;
-        border: 2px dashed #d83565;
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
-        margin: auto;
-        position: relative;
-        overflow: hidden;
-      "
-    >
-      <div
-        class="ticket-header"
-        style="text-align: center; margin-bottom: 10px"
-      >
-        <h1 style="font-size: 24px; color: #d83565">Museum Ticket</h1>
-        <h2 style="font-size: 20px; margin: 5px 0">{{ booking.name }}</h2>
-      </div>
-      <div class="ticket-info" style="margin-bottom: 20px">
-        <p style="margin: 5px 0"><strong>Date:</strong> {{ formatted_date }}</p>
-        <p style="margin: 5px 0"><strong>Day:</strong> {{ day_of_week }}</p>
-        <p style="margin: 5px 0"><strong>Year:</strong> {{ year }}</p>
-        <p style="margin: 5px 0">
-          <strong>Booking ID:</strong> {{ booking.id }}
-        </p>
-      </div>
-      <div
-        class="attendee-info"
-        style="display: flex; justify-content: space-between; margin: 10px 0"
-      >
-        <div style="text-align: center; flex: 1">
-          <strong>Adults:</strong> {{ booking.adult }}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F9FA; /* Light background for the page */
+        }
+        .ticket {
+            width: 90%;
+            max-width: 600px; /* Max width for the ticket */
+            margin: 20px auto; /* Centering the ticket */
+            padding: 20px;
+            background-color: #FFFFFF; /* White background for the ticket */
+            border: 1px solid #A79277; /* Solid border */
+            border-radius: 10px; /* Rounded corners */
+            page-break-after: always; /* Ensure each ticket starts on a new page */
+        }
+        .header {
+            text-align: center; /* Centered text */
+            margin-bottom: 20px; /* Spacing below the header */
+        }
+        .header h1 {
+            margin: 0; /* No margin for the heading */
+            color: #A79277; /* Color for the heading */
+            font-size: 24px; /* Font size for the heading */
+            font-weight: bold; /* Bold heading */
+        }
+        .header p {
+            margin: 5px 0; /* Spacing for the date */
+            font-size: 14px; /* Font size for date */
+            color: #555; /* Color for the date */
+        }
+        .qr-code {
+            text-align: center; /* Centered QR code */
+            margin: 20px 0; /* Spacing above and below the QR code */
+        }
+        .details {
+            margin: 20px 0; /* Margin for the details section */
+            padding: 10px; /* Padding within the details */
+            border-top: 1px solid #A79277; /* Top border */
+            border-bottom: 1px solid #A79277; /* Bottom border */
+            line-height: 1.5; /* Line height for readability */
+        }
+        .details p {
+            margin: 5px 0; /* Spacing for details */
+            font-size: 14px; /* Font size for details */
+            color: #000; /* Color for detail text */
+        }
+        .footer {
+            text-align: center; /* Centered footer text */
+            margin-top: 20px; /* Margin above footer */
+            font-size: 12px; /* Font size for footer */
+            color: #555; /* Color for footer text */
+            page-break-after: always; /* Ensure the footer doesn't get cut off */
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="header">
+            <h1>Museum Ticket</h1>
+            <p>{{ day_of_week }}, {{ formatted_date }} {{ year }}</p>
         </div>
-        <div style="text-align: center; flex: 1">
-          <strong>Children:</strong> {{ booking.child }}
+        <div class="qr-code">
+            <img src="{{ qr_code_data_url }}" alt="QR Code" />
         </div>
-        <div style="text-align: center; flex: 1">
-          <strong>Seniors:</strong> {{ booking.senior }}
+        <div class="details">
+            <p><strong>Name:</strong> {{ booking.name }}</p>
+            <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+            <p><strong>Children:</strong> {{ booking.child }}</p>
+            <p><strong>Adults:</strong> {{ booking.adult }}</p>
+            <p><strong>Seniors:</strong> {{ booking.senior }}</p>
+            <p><strong>Visiting Date:</strong> {{ booking.visiting_date }}</p>
         </div>
-      </div>
-      <div
-        class="amount"
-        style="
-          text-align: center;
-          font-size: 18px;
-          color: #4a437e;
-          margin: 10px 0;
-          border-top: 1px solid #ddd;
-          border-bottom: 1px solid #ddd;
-          padding: 10px 0;
-        "
-      >
-        <strong>Amount: Rs.{{ booking.amount }}</strong>
-      </div>
-      <div class="qr-code" style="text-align: center">
-        <img
-          src="{{ qr_code_data_url }}"
-          alt="QR Code"
-          style="width: 200px; height: 200px"
-        />
-      </div>
-      <div
-        class="ticket-footer"
-        style="
-          text-align: center;
-          font-size: 12px;
-          color: gray;
-          margin-top: 10px;
-        "
-      >
-        <p>We look forward to welcoming you!</p>
-      </div>
+        <div class="footer">
+            <p>Thank you for visiting!</p>
+        </div>
     </div>
-  </body>
+</body>
 </html>
