@@ -7,7 +7,7 @@ const settings: Settings = {
   chatHistory: { disabled: true },
   chatWindow: {
     autoJumpToBottom: true,
-    showMessagePrompt: false,
+    showMessagePrompt: false, 
   },
   header: {
     title: <Heading />,
