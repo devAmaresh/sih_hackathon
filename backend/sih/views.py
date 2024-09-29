@@ -87,8 +87,8 @@ class BookingDetails(generics.RetrieveAPIView):
         try:
             if booking_id:
                 # Retrieve a single booking by ID
-                booking = Booking.objects.get(id=booking_id)
-                serializer = self.get_serializer(booking)
+                booking = Booking.objects.filter(id=booking_id)
+                serializer = self.get_serializer(booking,many=True) 
                 return Response(serializer.data)
 
             elif email:
