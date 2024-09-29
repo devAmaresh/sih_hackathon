@@ -2,7 +2,7 @@ import { FaSquareFacebook, FaXTwitter } from "react-icons/fa6";
 import { SlSocialInstagram } from "react-icons/sl";
 const Footer = () => {
   return (
-    <div className="bg-[#00ff9d] text-black border-t-2 border-black p-8 flex flex-col items-center shadow-lg">
+    <div className="bg-[#8C9B74]  text-white border-t-2 border-black p-8 flex flex-col items-center shadow-lg">
       <div className="flex flex-col md:flex-row md:justify-between w-full max-w-6xl">
         <div className="mb-4 md:mb-0">
           <h3 className="text-xl font-bold mb-2">Contact Us</h3>

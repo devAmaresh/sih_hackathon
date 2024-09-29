@@ -7,14 +7,14 @@ const workCard = ({ imgSrc, title, body, orientation }: any) => {
           <img
             src={imgSrc}
             alt="QR code"
-            className="rounded-3xl object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
+            className=" object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
           />
         </div>
       )}
       <div className="md:col-span-2">
         <div
-          className="border-2 border-black rounded-2xl  md:mr-44 p-6 bg-white"
-          style={{ boxShadow: "20px 20px 0px rgba(74 ,222 ,128, 1)" }}
+          className="border-2 border-black   md:mr-44 p-6 bg-white"
+          style={{ boxShadow: "20px 20px 0px rgba(200, 180, 160, 0.5)" }}
         >
           <div className=" max-w-[52%]">
             <div className="mb-3.5 font-semibold text-pretty text-2xl">
@@ -42,7 +42,7 @@ const workCard = ({ imgSrc, title, body, orientation }: any) => {
           <img
             src={imgSrc}
             alt="QR code"
-            className="rounded-3xl object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
+            className=" object-fit w-[300px] h-[300px] border-2 border-black transition duration-300 ease-in-out transform hover:shadow-2xl"
           />
         </div>
       )}
