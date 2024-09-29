@@ -5,3 +5,25 @@
 .rcb-media-display-image-container {
   padding: 0px !important;
 }
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(10deg) scale(1.15);
+  }
+  50% {
+    transform: rotate(-10deg) scale(1);
+  }
+  75% {
+    transform: rotate(10deg) scale(1.15);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.rcb-toggle-icon:hover {
+  animation: shake 1s ease-in-out infinite !important;
+}
