@@ -183,7 +183,7 @@ class PaymentHandler(generics.CreateAPIView):
                     booking.save()
                     ticket_pdf = generate_ticket_pdf(booking)
                     upload_ticket = upload_ticket_pdf(booking, ticket_pdf)
-                    # send_ticket_email(booking, ticket_pdf)
+                    send_ticket_email(booking, ticket_pdf)
 
                     return Response(
                         {
@@ -201,7 +201,7 @@ class PaymentHandler(generics.CreateAPIView):
                     booking.save()
                     ticket_pdf = generate_ticket_pdf(booking)
                     upload_ticket = upload_ticket_pdf(booking, ticket_pdf)
-                    # send_ticket_email(booking, ticket_pdf)
+                    send_ticket_email(booking, ticket_pdf)
                     return Response(
                         {
                             "message": "Payment successful",
