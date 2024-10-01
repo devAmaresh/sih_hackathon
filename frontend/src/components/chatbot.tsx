@@ -15,6 +15,7 @@ import { useStore } from "../store/store";
 import { useTranslation } from "react-i18next";
 import getGeminiText from "../hooks/getGeminiText";
 import getGeminiFile from "../hooks/getGeminiFile";
+import { LuDownload } from "react-icons/lu";
 const MyChatBot = () => {
   const { t } = useTranslation();
   const form = useStore((state) => state.form);
@@ -22,6 +23,7 @@ const MyChatBot = () => {
   const [ticketDetails, setTicketDetails] = useState<any>({});
   const { messages, setMessages } = useMessages();
   const [file, setFile] = useState<any>(null);
+  const [pdfUrl, setPdfUrl] = useState("");
   const flow: Flow = {
     start: {
       message: t("welcome"),
@@ -66,7 +68,9 @@ const MyChatBot = () => {
     ticket_price: {
       component: (
         <div className="p-4 mx-4 my-2 h-auto w-full max-w-sm border-2 shadow-lg space-y-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB]">
-          <div className="text-lg font-semibold text-gray-800">{t("ticketPrice")}</div>
+          <div className="text-lg font-semibold text-gray-800">
+            {t("ticketPrice")}
+          </div>
           <div className="text-sm text-gray-600">
             <div className="font-medium">{t("child")}: Rs.10</div>
             <div className="font-medium">{t("adult")}: Rs.30</div>
@@ -219,6 +223,7 @@ const MyChatBot = () => {
             const paymentResult = await processPayment(bookingData);
 
             if (paymentResult.success) {
+              setPdfUrl(paymentResult.ticket_pdf_url);
               return "payment_success";
             } else {
               return "payment_failed";
@@ -232,6 +237,22 @@ const MyChatBot = () => {
     },
     payment_success: {
       message: t("booking_confirmed"),
+      component: (
+        <>
+          <div className="ml-4 mt-2 text-sm">
+            <a
+              href={`${pdfUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="flex border-zinc-400 font-semibold hover:opacity-80 justify-center items-center border p-1.5 text-sm rounded-lg w-32"
+            >
+              Download
+              <LuDownload className="w-5 h-5 ml-1.5" />
+            </a>
+          </div>
+        </>
+      ),
       options: [t("new_booking"), t("trackTickets"), t("exit")],
       path: (params: any) => {
         if (params.userInput === t("new_booking")) {
@@ -338,8 +359,8 @@ const MyChatBot = () => {
     display_ticket_status: {
       message: (_params: any) => {
         console.log(ticketDetails);
-        if(ticketDetails.length === 0) {
-        return "Sorry, we couldn't find any booking. Please try again or exit.";
+        if (ticketDetails.length === 0) {
+          return "Sorry, we couldn't find any booking. Please try again or exit.";
         }
         if (ticketDetails.length != 0 || ticketDetails[0].id) {
           return "Here is the booking details.";
@@ -399,6 +420,18 @@ const MyChatBot = () => {
                   <div className="font-medium">
                     Amount:{" "}
                     <span className="text-blue-600">Rs.{ticket.amount}</span>
+                  </div>
+                  <div className="flex justify-center mt-2">
+                    <a
+                      href={`${pdfUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                      className="flex border-zinc-400 font-semibold hover:opacity-80 justify-center items-center border-2 p-1.5 text-sm rounded-md w-32"
+                    >
+                      Download
+                      <LuDownload className="w-5 h-5 ml-1.5" />
+                    </a>
                   </div>
                 </div>
               ))}

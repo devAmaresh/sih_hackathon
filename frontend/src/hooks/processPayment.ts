@@ -20,15 +20,19 @@ const loadScript = (src: string): Promise<boolean> => {
 /**
  * Handles the entire payment process using Razorpay.
  * @param {object} formData - The booking details collected from the user.
- * @returns {Promise<{ success: boolean; message: string }>} - The result of the payment process.
+ * @returns {Promise<{ success: boolean; message: string,ticket_pdf_url:string }>} - The result of the payment process.
  */
 const processPayment = async (
   formData: any
-): Promise<{ success: boolean; message: string }> => {
+): Promise<{ success: boolean; message: string; ticket_pdf_url: string }> => {
   // Step 1: Load the Razorpay Checkout script
   const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
   if (!res) {
-    return { success: false, message: "Razorpay SDK failed to load." };
+    return {
+      success: false,
+      message: "Razorpay SDK failed to load.",
+      ticket_pdf_url: "",
+    };
   }
 
   try {
@@ -38,7 +42,11 @@ const processPayment = async (
       formData
     );
     if (bookingResponse.status !== 201) {
-      return { success: false, message: "Failed to create booking." };
+      return {
+        success: false,
+        message: "Failed to create booking.",
+        ticket_pdf_url: "",
+      };
     }
 
     const { razorpay_order_id, amount, id } = bookingResponse.data;
@@ -67,17 +75,26 @@ const processPayment = async (
             );
             if (paymentResponse.status === 200) {
               // Payment was successfully captured and verified
-              resolve({ success: true, message: "Payment successful" });
+              resolve({
+                success: true,
+                message: "Payment successful",
+                ticket_pdf_url: paymentResponse.data.ticket_pdf_url,
+              });
             } else {
               // Payment capture failed on the backend
               resolve({
                 success: false,
                 message: "Payment failed during capture.",
+                ticket_pdf_url: "",
               });
             }
           } catch (error: any) {
             console.error("Payment capture failed:", error);
-            resolve({ success: false, message: "Payment capture failed." });
+            resolve({
+              success: false,
+              message: "Payment capture failed.",
+              ticket_pdf_url: "",
+            });
           }
         },
         prefill: {
@@ -109,7 +126,12 @@ const processPayment = async (
     });
   } catch (error: any) {
     console.error("Error in payment processing:", error);
-    return { success: false, message: "Payment processing failed." };
+    return {
+      success: false,
+      message: "Payment processing failed.",
+
+      ticket_pdf_url: "",
+    };
   }
 };
 

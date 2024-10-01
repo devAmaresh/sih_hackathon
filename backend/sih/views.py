@@ -153,6 +153,7 @@ class TicketVerification(APIView):
 from .generate_pdf import generate_ticket_pdf
 from .mail import send_ticket_email
 from .qrcode import generate_qr_code
+from .upload_ticket import upload_ticket_pdf
 
 
 class PaymentHandler(generics.CreateAPIView):
@@ -181,10 +182,14 @@ class PaymentHandler(generics.CreateAPIView):
                     booking.status = "Paid"
                     booking.save()
                     ticket_pdf = generate_ticket_pdf(booking)
-                    send_ticket_email(booking, ticket_pdf)
+                    upload_ticket = upload_ticket_pdf(booking, ticket_pdf)
+                    # send_ticket_email(booking, ticket_pdf)
 
                     return Response(
-                        {"message": "Payment has already been captured."},
+                        {
+                            "message": "Payment has already been captured.",
+                            "ticket_pdf_url": upload_ticket,
+                        },
                         status=status.HTTP_200_OK,
                     )
                 try:
@@ -194,8 +199,15 @@ class PaymentHandler(generics.CreateAPIView):
                     # Optionally, update the booking status here if needed
                     booking.status = "Paid"
                     booking.save()
+                    ticket_pdf = generate_ticket_pdf(booking)
+                    upload_ticket = upload_ticket_pdf(booking, ticket_pdf)
+                    # send_ticket_email(booking, ticket_pdf)
                     return Response(
-                        {"message": "Payment successful"}, status=status.HTTP_200_OK
+                        {
+                            "message": "Payment successful",
+                            "ticket_pdf_url": upload_ticket,
+                        },
+                        status=status.HTTP_200_OK,
                     )
                 except Exception as e:
                     return Response(

@@ -35,13 +35,13 @@ function Quantity() {
     const { adult, child, senior } = values;
     if (
       (!adult && !child && !senior) ||
-      (adult === 0 && child === 0 && senior === 0)
+      (adult === 0 && child === 0 && senior === 0) || (totalAmount === 0)
     ) {
       setErrorSelect(true);
       setSubmitting(false);
       return;
     }
-
+   
     const input = document.querySelector(
       ".rcb-chat-input-textarea"
     ) as HTMLTextAreaElement;

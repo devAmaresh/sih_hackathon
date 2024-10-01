@@ -18,4 +18,5 @@ class BookingSerializer(serializers.ModelSerializer):
             "payment_id",
             "status",
             "amount",
+            "ticket_pdf_url",
         ]
