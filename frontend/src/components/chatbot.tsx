@@ -28,7 +28,12 @@ const MyChatBot = () => {
       file: async (params: any) => {
         setFile(params.files[0]);
       },
-      options: [t("info"), t("bookTickets"), t("trackTickets"), t("ticketPrice")],
+      options: [
+        t("info"),
+        t("bookTickets"),
+        t("trackTickets"),
+        t("ticketPrice"),
+      ],
       path: (params: any) => {
         switch (params.userInput) {
           case t("info"):
@@ -61,9 +66,7 @@ const MyChatBot = () => {
     ticket_price: {
       component: (
         <div className="p-4 mx-4 my-2 h-auto w-full max-w-sm border-2 shadow-lg space-y-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB]">
-          <div className="text-lg font-semibold text-gray-800">
-            Price
-          </div>
+          <div className="text-lg font-semibold text-gray-800">Price</div>
           <div className="text-sm text-gray-600">
             <div className="font-medium">Child: Rs.10</div>
             <div className="font-medium">Adult: Rs.20</div>
@@ -75,12 +78,12 @@ const MyChatBot = () => {
         switch (params.userInput) {
           case t("bookTickets"):
             return "ask_visit_date";
-            case t("trackTickets"):
-              return "track_tickets";
-              default:
-                return "restart";
-              }
-            },
+          case t("trackTickets"):
+            return "track_tickets";
+          default:
+            return "restart";
+        }
+      },
       options: [t("bookTickets"), t("trackTickets"), t("exit")],
     },
     ask_visit_date: {
@@ -173,18 +176,24 @@ const MyChatBot = () => {
           <div className="text-sm text-gray-600">
             <div className="font-medium">Name: {form.name}</div>
             <div className="font-medium">
-                Visit Date: {new Date(form.visiting_date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+              Visit Date:{" "}
+              {new Date(form.visiting_date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </div>
             <div className="font-medium">Email: {form.email}</div>
             <div className="font-medium">Mobile Number: {form.phone}</div>
             <div className="font-medium">
-              Tickets: Child - {form.child}, Adult - {form.adult}, Senior - {form.senior}
+              Tickets: Child - {form.child}, Adult - {form.adult}, Senior -{" "}
+              {form.senior}
             </div>
-            <div className="font-medium"> Total Tickets: {Number(form.child) + Number(form.adult) + Number(form.senior)}</div>
+            <div className="font-medium">
+              {" "}
+              Total Tickets:{" "}
+              {Number(form.child) + Number(form.adult) + Number(form.senior)}
+            </div>
             <div className="font-medium">Amount: Rs.{form.amount}</div>
           </div>
         </div>
@@ -329,7 +338,10 @@ const MyChatBot = () => {
     display_ticket_status: {
       message: (_params: any) => {
         console.log(ticketDetails);
-        if (ticketDetails[0].id) {
+        if(ticketDetails.length === 0) {
+        return "Sorry, we couldn't find any booking. Please try again or exit.";
+        }
+        if (ticketDetails.length != 0 || ticketDetails[0].id) {
           return "Here is the booking details.";
         } else {
           return "Sorry, we couldn't find any booking. Please try again or exit.";
@@ -358,13 +370,16 @@ const MyChatBot = () => {
                     Email: <span className="text-blue-600">{ticket.email}</span>
                   </div>
                   <div className="font-medium">
-                      Visit Date:{" "}
-                      <span className="text-blue-600">
-                        {new Date(ticket.visiting_date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    Visit Date:{" "}
+                    <span className="text-blue-600">
+                      {new Date(ticket.visiting_date).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )}
                     </span>
                   </div>
                   <div className="font-medium">
@@ -376,7 +391,9 @@ const MyChatBot = () => {
                     <span className="text-blue-600 mr-1">{ticket.senior}</span>
                     Total:{" "}
                     <span className="text-blue-600">
-                      {Number(ticket.child) + Number(ticket.adult) + Number(ticket.senior)}
+                      {Number(ticket.child) +
+                        Number(ticket.adult) +
+                        Number(ticket.senior)}
                     </span>
                   </div>
                   <div className="font-medium">

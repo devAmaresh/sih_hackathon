@@ -2,6 +2,7 @@ import { Spin, Form, Input, Button, ConfigProvider } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMessages } from "react-chatbotify";
+import { useTranslation } from "react-i18next";
 
 const { Item } = Form;
 
@@ -44,7 +45,7 @@ function TicketDetails({ type }: any) {
       return newMessages;
     });
   };
-
+  const { t } = useTranslation();
   return (
     <div
       className={`w-[70%] max-w-[380px] ml-4 p-4 ${
@@ -53,7 +54,7 @@ function TicketDetails({ type }: any) {
           : "bg-zinc-100 text-black"
       } rounded-b-lg rounded-tr-lg border-[1px] border-zinc-200 shadow-sm`}
     >
-      <div className="text-semibold text-center pb-3">Fill in the details</div>
+      <div className="text-semibold text-center pb-3">{t("fill_details")}</div>
       <ConfigProvider
         theme={{
           components: {

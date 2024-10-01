@@ -3,10 +3,12 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useStore } from "../../store/store";
 import { useMessages } from "react-chatbotify";
+import { useTranslation } from "react-i18next";
 
 const { Item } = Form;
 
 function contactForm({ handleContactFormSubmit }: any) {
+  const { t } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
   const theme = localStorage.getItem("theme") || "light";
   const { messages, setMessages } = useMessages();
@@ -67,9 +69,7 @@ function contactForm({ handleContactFormSubmit }: any) {
           : "bg-zinc-100 text-black"
       } rounded-b-lg rounded-tr-lg border-[1px] border-zinc-200 shadow-sm`}
     >
-      <div className="text-semibold text-center pb-3">
-        Fill in your details to get started
-      </div>
+      <div className="text-semibold text-center pb-3">{t("fill_details")}</div>
       <ConfigProvider
         theme={{
           components: {
@@ -149,8 +149,8 @@ function contactForm({ handleContactFormSubmit }: any) {
               style={{ width: "100%", height: "36px" }}
               className={`${
                 theme === "dark"
-                  ? "bg-[#8B5B29] text-white hover:bg-[#A96A3A]" 
-                  : "bg-[#FCE9D7] text-black hover:bg-[#F8D6C0]" 
+                  ? "bg-[#8B5B29] text-white hover:bg-[#A96A3A]"
+                  : "bg-[#FCE9D7] text-black hover:bg-[#F8D6C0]"
               }`}
             >
               {submitting ? (

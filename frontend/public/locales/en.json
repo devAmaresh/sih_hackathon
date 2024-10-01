@@ -24,5 +24,6 @@
  "display_ticket": "Your ticket is confirmed for the following details:",
  "new_booking": "New Booking",
  "exit": "Exit",
- "try_again": "Try Again"
+ "try_again": "Try Again",
+ "fill_details": "Fill in the details",
 }
