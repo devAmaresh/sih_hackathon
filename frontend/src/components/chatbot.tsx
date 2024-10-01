@@ -25,6 +25,9 @@ const MyChatBot = () => {
   const flow: Flow = {
     start: {
       message: t("welcome"),
+      file: async (params: any) => {
+        setFile(params.files[0]);
+      },
       options: [t("info"), t("bookTickets"), t("trackTickets")],
       path: (params: any) => {
         switch (params.userInput) {
@@ -72,12 +75,19 @@ const MyChatBot = () => {
           return newMessages;
         });
       },
-      path: "ask_num_tickets",
+      options: [t("cancel")],
+      path: (params:Params)=>{
+        if(params.userInput===t("cancel")){
+          return "restart";
+        }else{
+          return "ask_num_tickets";
+        }
+      },
     },
     ask_num_tickets: {
       message: t("select_tickets"),
       component: <Quantity />,
-      options: ["Cancel"],
+      options: [t("cancel")],
       function: (_params: Params) => {
         console.log(messages);
         setMessages((prevMessages) => {
