@@ -154,6 +154,7 @@ const MyChatBot = () => {
               Total Tickets: Child - {form.child}, Adult - {form.adult}, Senior
               - {form.senior}
             </div>
+            <div className="font-medium">Amount: Rs.{form.amount}</div>
           </div>
         </div>
       ),

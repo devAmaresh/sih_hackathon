@@ -9,12 +9,12 @@ const datePick = () => {
     return `${day}-${month}-${year}`;
   };
 
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); 
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   const today = new Date().toISOString().split("T")[0];
   const nextMonth = new Date();
   nextMonth.setMonth(nextMonth.getMonth() + 1);
-  
+
   const maxDate = nextMonth.toISOString().split("T")[0];
 
   const updateForm = useStore((state) => state.updateForm);
@@ -24,13 +24,13 @@ const datePick = () => {
       <input
         type="date"
         className="p-0.5 border-2 rounded-lg mr-2 placeholder-text"
-        value={date} 
-        min={today} 
-        max={maxDate} 
+        value={date}
+        min={today}
+        max={maxDate}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          updateForm("visiting_date", e.target.value);
+          updateForm("visiting_date", e.target.value || today);
           const formattedDate = formatDate(e.target.value);
-          setDate(e.target.value); 
+          setDate(e.target.value);
           console.log(formattedDate);
         }}
       />
