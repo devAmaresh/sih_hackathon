@@ -115,7 +115,7 @@ function TicketDetails({ type }: any) {
               />
             </Item>
           )}
-          {type === "ticketId" && (
+          {type === "ticket_id" && (
             <Item
               name="ticketId"
               rules={[
