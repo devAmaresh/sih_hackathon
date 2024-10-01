@@ -23,7 +23,7 @@ function Quantity() {
     return child * childPrice + adult * adultPrice + senior * seniorPrice;
   };
 
-  const handleChange = (_:any, values: any) => {
+  const handleChange = (_: any, values: any) => {
     const total = calculateTotal(values);
     setTotalAmount(total);
     setErrorSelect(false);
@@ -59,9 +59,9 @@ function Quantity() {
       keyCode: 13,
     });
     input.dispatchEvent(enterKeyEvent);
-    updateForm("child", child);
-    updateForm("adult", adult);
-    updateForm("senior", senior);
+    updateForm("child", child || 0);
+    updateForm("adult", adult || 0);
+    updateForm("senior", senior || 0);
     updateForm("amount", totalAmount);
     setSubmitting(false);
     setMessages((prevMessages) => {
