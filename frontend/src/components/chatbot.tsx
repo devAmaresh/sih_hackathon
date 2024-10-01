@@ -423,7 +423,7 @@ const MyChatBot = () => {
                   </div>
                   <div className="flex justify-center mt-2">
                     <a
-                      href={`${pdfUrl}`}
+                      href={ticket.ticket_pdf_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       download
