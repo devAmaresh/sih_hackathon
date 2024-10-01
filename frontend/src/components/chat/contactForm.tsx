@@ -123,7 +123,7 @@ function contactForm({ handleContactFormSubmit }: any) {
             rules={[
               { required: true, message: "Please input your phone number!" },
               {
-                pattern: new RegExp(/^[7-9]{1}[0-9]{9}$/),
+                pattern: new RegExp(/^[6-9]{1}[0-9]{9}$/),
                 message: "Please enter a valid phone number!",
               },
             ]}

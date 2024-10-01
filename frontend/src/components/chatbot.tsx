@@ -76,10 +76,10 @@ const MyChatBot = () => {
         });
       },
       options: [t("cancel")],
-      path: (params:Params)=>{
-        if(params.userInput===t("cancel")){
+      path: (params: Params) => {
+        if (params.userInput === t("cancel")) {
           return "restart";
-        }else{
+        } else {
           return "ask_num_tickets";
         }
       },
@@ -216,23 +216,46 @@ const MyChatBot = () => {
     },
     track_tickets: {
       message: t("enter_ticket_email"),
-      options: [t("track_id"), t("track_email"), t("exit")],
+      options: [t("track_id"), t("track_email"), t("track_phone"), t("exit")],
       path: (params: any) => {
         switch (params.userInput) {
           case t("track_id"):
             return "ask_ticket_id";
           case t("track_email"):
             return "ask_email";
+          case t("track_phone"):
+            return "ask_phone";
           default:
             return "restart";
         }
       },
       chatDisabled: true,
     },
+    ask_phone: {
+      message: t("track_phone"),
+      function: async (params: any) => {
+        const res = await getTicketDetails("", "", params.userInput);
+        setTicketDetails(res);
+      },
+      component: (
+        <>
+          <TicketDetails type="phone" />
+        </>
+      ),
+      chatDisabled: true,
+      options: [t("exit")],
+      path: (params: Params) => {
+        if (params.userInput === t("exit")) {
+          return "restart";
+        } else {
+          return "display_ticket_status";
+        }
+      },
+    },
     ask_email: {
       message: t("track_email"),
       function: async (params: any) => {
-        const res = await getTicketDetails("", params.userInput);
+        const res = await getTicketDetails("", params.userInput, "");
         setTicketDetails(res);
       },
       component: (
@@ -241,14 +264,19 @@ const MyChatBot = () => {
         </>
       ),
       chatDisabled: true,
-      path: () => {
-        return "display_ticket_status";
+      options: [t("exit")],
+      path: (params: Params) => {
+        if (params.userInput === t("exit")) {
+          return "restart";
+        } else {
+          return "display_ticket_status";
+        }
       },
     },
     ask_ticket_id: {
       message: t("track_id"),
       function: async (params: any) => {
-        const res = await getTicketDetails(params.userInput, "");
+        const res = await getTicketDetails(params.userInput, "", "");
         setTicketDetails(res);
       },
       component: (
@@ -256,8 +284,13 @@ const MyChatBot = () => {
           <TicketDetails type="ticket_id" />
         </>
       ),
-      path: () => {
-        return "display_ticket_status";
+      options: [t("exit")],
+      path: (params: Params) => {
+        if (params.userInput === t("exit")) {
+          return "restart";
+        } else {
+          return "display_ticket_status";
+        }
       },
       chatDisabled: true,
     },
@@ -277,7 +310,7 @@ const MyChatBot = () => {
               <div className="text-base font-bold text-gray-800 text-center mb-4">
                 {t("display_ticket")}
               </div>
-              {ticketDetails.map((ticket:any, index:any) => (
+              {ticketDetails.map((ticket: any, index: any) => (
                 <div
                   key={index}
                   className="text-sm text-gray-700 border-b-2 pb-4 mb-4"
