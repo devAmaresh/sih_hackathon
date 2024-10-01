@@ -4,9 +4,9 @@ import ChangeLang from "../changeLang";
 const Nav = () => {
   return (
     <div>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-evenly font-semibold bg-transparent backdrop-blur-xl">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-evenly font-semibold bg-transparent backdrop-blur-2xl">
         <div className="flex items-center  border-black p-4">
-          <div className="font-mono text-green-500">Museum</div>
+          <div className="font-mono text-center bg-gradient-to-r from-yellow-500 to-pink-500 bg-clip-text text-transparent">Museum</div>
         </div>
         <div className="md:flex justify-center space-x-14 p-4 hidden">
           <div>

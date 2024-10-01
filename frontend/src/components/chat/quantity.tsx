@@ -6,20 +6,48 @@ import { useMessages } from "react-chatbotify";
 
 const { Item } = Form;
 
-function quantity() {
+function Quantity() {
   const [submitting, setSubmitting] = useState(false);
+  const [errorSelect, setErrorSelect] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
   const theme = localStorage.getItem("theme") || "light";
   const { messages, setMessages } = useMessages();
   const updateForm = useStore((state) => state.updateForm);
+
+  const childPrice = 10;
+  const adultPrice = 30;
+  const seniorPrice = 15;
+
+  const calculateTotal = (values: any) => {
+    const { adult = 0, child = 0, senior = 0 } = values;
+    return child * childPrice + adult * adultPrice + senior * seniorPrice;
+  };
+
+  const handleChange = (_:any, values: any) => {
+    const total = calculateTotal(values);
+    setTotalAmount(total);
+    setErrorSelect(false);
+  };
+
   const onFinish = async (values: any) => {
     setSubmitting(true);
     const { adult, child, senior } = values;
+    if (
+      (!adult && !child && !senior) ||
+      (adult === 0 && child === 0 && senior === 0)
+    ) {
+      setErrorSelect(true);
+      setSubmitting(false);
+      return;
+    }
 
     const input = document.querySelector(
       ".rcb-chat-input-textarea"
     ) as HTMLTextAreaElement;
     if (input) {
-      input.value = `child: ${child}, adult: ${adult}, senior: ${senior} `;
+      input.value = `child: ${child || 0}, adult: ${adult || 0}, senior: ${
+        senior || 0
+      }, total: ${totalAmount} INR`;
     }
 
     const inputEvent = new Event("input", { bubbles: true });
@@ -34,9 +62,9 @@ function quantity() {
     updateForm("child", child);
     updateForm("adult", adult);
     updateForm("senior", senior);
+    updateForm("amount", totalAmount);
     setSubmitting(false);
     setMessages((prevMessages) => {
-      console.log(messages);
       const newMessages = [...prevMessages];
       for (let i = newMessages.length - 1; i >= 0; i--) {
         if (newMessages[i].sender === "bot") {
@@ -75,12 +103,10 @@ function quantity() {
           name="leadForm"
           initialValues={{ remember: true }}
           onFinish={onFinish}
+          onValuesChange={handleChange} // Handle change to update total
           className="space-y-4"
         >
-          <Item
-            name="child"
-            rules={[{ required: true, message: "Please input no child!" }]}
-          >
+          <Item name="child">
             <Input
               type="number"
               placeholder="Enter no of child"
@@ -91,12 +117,11 @@ function quantity() {
               }}
               min={0}
               step={1}
+              allowClear={true}
+              onChange={() => setErrorSelect(false)}
             />
           </Item>
-          <Item
-            name="adult"
-            rules={[{ required: true, message: "Please input no of adults!" }]}
-          >
+          <Item name="adult">
             <Input
               type="number"
               placeholder="Enter no of adults"
@@ -107,13 +132,12 @@ function quantity() {
               }}
               min={0}
               step={1}
+              allowClear={true}
+              onChange={() => setErrorSelect(false)}
             />
           </Item>
 
-          <Item
-            name="senior"
-            rules={[{ required: true, message: "Enter no of senior!" }]}
-          >
+          <Item name="senior">
             <Input
               type="number"
               placeholder="Enter your no of Senior"
@@ -124,10 +148,29 @@ function quantity() {
               }}
               min={0}
               step={1}
-              // allowClear={true}
+              allowClear={true}
+              onChange={() => setErrorSelect(false)}
             />
           </Item>
 
+          {/* Display total amount */}
+          <Item label="Total Amount">
+            <Input
+              value={`${totalAmount} INR`}
+              readOnly
+              className="w-full p-1 rounded-lg"
+              style={{
+                backgroundColor: theme === "dark" ? "black" : "white",
+                color: theme === "dark" ? "white" : "black",
+              }}
+            />
+          </Item>
+
+          {errorSelect && (
+            <div className="text-red-500 text-xs">
+              At least one ticket is required for booking
+            </div>
+          )}
           <Item>
             <Button
               type="primary"
@@ -159,4 +202,4 @@ function quantity() {
   );
 }
 
-export default quantity;
+export default Quantity;

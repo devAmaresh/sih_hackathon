@@ -10,6 +10,7 @@ interface Form {
   child: number;
   adult: number;
   senior: number;
+  amount: number;
 }
 
 // Define the Zustand store
@@ -27,6 +28,7 @@ const useStore = create<{
     child: 0,
     adult: 0,
     senior: 0,
+    amount: 0,
   },
   updateForm: (field, value) =>
     set((state) => ({
@@ -46,6 +48,7 @@ const useStore = create<{
         child: 0,
         adult: 0,
         senior: 0,
+        amount: 0,
       },
     }),
 }));

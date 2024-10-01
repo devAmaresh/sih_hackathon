@@ -17,7 +17,7 @@ const changeLang = () => {
       label: (
         <div
           className={`p-2 w-full rounded-md flex items-center justify-between min-w-28 mb-1 ${
-            selectedLang === "en" ? "bg-green-200" : ""
+            selectedLang === "en" ? "bg-[#ededed]" : ""
           }`}
         >
           <span>English</span>
@@ -32,7 +32,7 @@ const changeLang = () => {
       label: (
         <div
           className={`p-2 w-full rounded-md flex items-center justify-between mb-1 ${
-            selectedLang === "bn" ? "bg-green-200" : ""
+            selectedLang === "bn" ? "bg-[#ededed]" : ""
           }`}
         >
           <span>বাংলা</span>
@@ -47,7 +47,7 @@ const changeLang = () => {
       label: (
         <div
           className={`p-2 w-full rounded-md flex items-center justify-between mb-1 ${
-            selectedLang === "hi" ? "bg-green-200" : ""
+            selectedLang === "hi" ? "bg-[#ededed]" : ""
           }`}
         >
           <span>हिंदी</span>
@@ -62,7 +62,7 @@ const changeLang = () => {
       label: (
         <div
           className={`p-2 w-full rounded-md flex items-center justify-between ${
-            selectedLang === "gj" ? "bg-green-200" : ""
+            selectedLang === "gj" ? "bg-[#ededed]" : ""
           }`}
         >
           <span>ગુજરાતી</span>

@@ -77,10 +77,11 @@ class BookingDetails(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         booking_id = self.request.query_params.get("booking_id", None)
         email = self.request.query_params.get("email", None)
+        phone = self.request.query_params.get("phone", None)
 
-        if not booking_id and not email:
+        if not booking_id and not email and not phone:
             return Response(
-                {"message": "Booking ID or email is required"},
+                {"message": "Booking ID or email or phone is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -88,12 +89,20 @@ class BookingDetails(generics.RetrieveAPIView):
             if booking_id:
                 # Retrieve a single booking by ID
                 booking = Booking.objects.filter(id=booking_id)
-                serializer = self.get_serializer(booking,many=True) 
+                serializer = self.get_serializer(booking, many=True)
                 return Response(serializer.data)
 
             elif email:
                 # Retrieve multiple bookings by email
                 bookings = Booking.objects.filter(email=email)
+                serializer = self.get_serializer(
+                    bookings, many=True
+                )  # Use many=True for multiple objects
+                return Response(serializer.data)
+
+            elif phone:
+                # Retrieve multiple bookings by phone
+                bookings = Booking.objects.filter(phone=phone)
                 serializer = self.get_serializer(
                     bookings, many=True
                 )  # Use many=True for multiple objects
