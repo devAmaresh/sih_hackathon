@@ -28,7 +28,7 @@ const MyChatBot = () => {
       file: async (params: any) => {
         setFile(params.files[0]);
       },
-      options: [t("info"), t("bookTickets"), t("trackTickets")],
+      options: [t("info"), t("bookTickets"), t("trackTickets"), t("ticketPrice")],
       path: (params: any) => {
         switch (params.userInput) {
           case t("info"):
@@ -37,6 +37,8 @@ const MyChatBot = () => {
             return "ask_visit_date";
           case t("trackTickets"):
             return "track_tickets";
+          case t("ticketPrice"):
+            return "ticket_price";
           default:
             return "loop";
         }
@@ -49,14 +51,37 @@ const MyChatBot = () => {
         params.userInput === t("more_info")
           ? "provide_more_info"
           : "ask_visit_date",
-      chatDisabled: true,
     },
     provide_more_info: {
       message: t("provide_more_info"),
       options: [t("yes"), t("no")],
       path: (params: any) =>
         params.userInput === t("yes") ? "ask_visit_date" : "start",
-      chatDisabled: true,
+    },
+    ticket_price: {
+      component: (
+        <div className="p-4 mx-4 my-2 h-auto w-full max-w-sm border-2 shadow-lg space-y-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB]">
+          <div className="text-lg font-semibold text-gray-800">
+            Price
+          </div>
+          <div className="text-sm text-gray-600">
+            <div className="font-medium">Child: Rs.10</div>
+            <div className="font-medium">Adult: Rs.20</div>
+            <div className="font-medium">Senior: Rs.15</div>
+          </div>
+        </div>
+      ),
+      path: (params: any) => {
+        switch (params.userInput) {
+          case t("bookTickets"):
+            return "ask_visit_date";
+            case t("trackTickets"):
+              return "track_tickets";
+              default:
+                return "restart";
+              }
+            },
+      options: [t("bookTickets"), t("trackTickets"), t("exit")],
     },
     ask_visit_date: {
       message: t("select_date"),
@@ -141,19 +166,25 @@ const MyChatBot = () => {
     confirm_booking: {
       message: t("confirm_booking"),
       component: (
-        <div className="p-4 h-auto w-full max-w-sm border-2 rounded-lg bg-white shadow-lg space-y-2">
+        <div className="p-4 mx-4 my-2 h-auto w-full max-w-sm border-2 shadow-lg space-y-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB]">
           <div className="text-lg font-semibold text-gray-800">
             Confirm Booking
           </div>
           <div className="text-sm text-gray-600">
             <div className="font-medium">Name: {form.name}</div>
-            <div className="font-medium">Visit Date: {form.visiting_date}</div>
-            <div className="font-medium">Email: {form.email}</div>
-            <div className="font-medium">Contact Info: {form.phone}</div>
             <div className="font-medium">
-              Total Tickets: Child - {form.child}, Adult - {form.adult}, Senior
-              - {form.senior}
+                Visit Date: {new Date(form.visiting_date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
             </div>
+            <div className="font-medium">Email: {form.email}</div>
+            <div className="font-medium">Mobile Number: {form.phone}</div>
+            <div className="font-medium">
+              Tickets: Child - {form.child}, Adult - {form.adult}, Senior - {form.senior}
+            </div>
+            <div className="font-medium"> Total Tickets: {Number(form.child) + Number(form.adult) + Number(form.senior)}</div>
           </div>
         </div>
       ),
@@ -293,9 +324,13 @@ const MyChatBot = () => {
                     Email: <span className="text-blue-600">{ticket.email}</span>
                   </div>
                   <div className="font-medium">
-                    Visit Date:{" "}
-                    <span className="text-blue-600">
-                      {ticket.visiting_date}
+                      Visit Date:{" "}
+                      <span className="text-blue-600">
+                        {new Date(ticket.visiting_date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
                     </span>
                   </div>
                   <div className="font-medium">
@@ -304,7 +339,11 @@ const MyChatBot = () => {
                     Adult:{" "}
                     <span className="text-blue-600 mr-1">{ticket.adult}</span>
                     Senior:{" "}
-                    <span className="text-blue-600">{ticket.senior}</span>
+                    <span className="text-blue-600 mr-1">{ticket.senior}</span>
+                    Total:{" "}
+                    <span className="text-blue-600">
+                      {Number(ticket.child) + Number(ticket.adult) + Number(ticket.senior)}
+                    </span>
                   </div>
                   <div className="font-medium">
                     Amount:{" "}
@@ -316,12 +355,10 @@ const MyChatBot = () => {
           )}
         </>
       ),
-      options: [t("new_booking"), t("exit"), t("trackTickets")],
+      options: [t("new_booking"), t("exit")],
       path: (params: any) => {
         if (params.userInput === t("new_booking")) {
           return "ask_visit_date";
-        } else if (params.userInput === t("trackTickets")) {
-          return "track_tickets";
         } else {
           return "restart";
         }
