@@ -66,11 +66,11 @@ const MyChatBot = () => {
     ticket_price: {
       component: (
         <div className="p-4 mx-4 my-2 h-auto w-full max-w-sm border-2 shadow-lg space-y-2 border-gray-300 rounded-tr-2xl rounded-b-2xl bg-[#FCF5EB]">
-          <div className="text-lg font-semibold text-gray-800">Price</div>
+          <div className="text-lg font-semibold text-gray-800">{t("ticketPrice")}</div>
           <div className="text-sm text-gray-600">
-            <div className="font-medium">Child: Rs.10</div>
-            <div className="font-medium">Adult: Rs.20</div>
-            <div className="font-medium">Senior: Rs.15</div>
+            <div className="font-medium">{t("child")}: Rs.10</div>
+            <div className="font-medium">{t("adult")}: Rs.30</div>
+            <div className="font-medium">{t("senior")}: Rs.15</div>
           </div>
         </div>
       ),
