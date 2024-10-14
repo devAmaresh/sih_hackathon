@@ -1,5 +1,6 @@
 import axios from "axios";
 import i18n from "../utils/i18n";
+import { backendUrl } from "../utils/backend_url";
 
 const getGeminiFile = async (input: File) => {
   try {
@@ -9,7 +10,7 @@ const getGeminiFile = async (input: File) => {
     formData.append("lang", i18n.language);
 
     const response = await axios.post(
-      `http://localhost:8000/api/gemini-file/`,
+      `${backendUrl}/api/gemini-file/`,
       formData,
       {
         headers: {

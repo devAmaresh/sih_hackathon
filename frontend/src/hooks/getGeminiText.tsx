@@ -1,10 +1,11 @@
 import axios from "axios";
 import i18n from "../utils/i18n";
+import { backendUrl } from "../utils/backend_url";
 
 const getGeminiText = async (input: string) => {
   try {
     const response = await axios.post(
-      `http://localhost:8000/api/gemini-text/`,
+      `${backendUrl}/api/gemini-text/`,
       {
         input: input,
         lang: i18n.language,

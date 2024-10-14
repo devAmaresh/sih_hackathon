@@ -1,6 +1,7 @@
 // ../hooks/processPayment.ts
 
 import axios from "axios";
+import { backendUrl } from "../utils/backend_url";
 
 /**
  * Dynamically loads an external script.
@@ -38,7 +39,7 @@ const processPayment = async (
   try {
     // Step 2: Create a booking and Razorpay order by sending data to the backend
     const bookingResponse = await axios.post(
-      "http://localhost:8000/api/book-ticket/",
+      `${backendUrl}/api/book-ticket/`,
       formData
     );
     if (bookingResponse.status !== 201) {
@@ -70,7 +71,7 @@ const processPayment = async (
 
           try {
             const paymentResponse = await axios.post(
-              "http://localhost:8000/api/paymenthandler/",
+              `${backendUrl}/api/paymenthandler/`,
               paymentData
             );
             if (paymentResponse.status === 200) {

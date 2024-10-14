@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backendUrl } from "../utils/backend_url";
 
 const handleContactFormSubmit = async (
   name: string,
@@ -8,7 +9,7 @@ const handleContactFormSubmit = async (
 ) => {
   try {
     const response = await axios.post(
-      `http://localhost:8000/api/book-ticket/`,
+      `${backendUrl}/api/book-ticket/`,
       {
         name: name,
         email: email,
