@@ -32,10 +32,12 @@ ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://sih-hackathon-sage.vercel.app",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "https://sih-hackathon-sage.vercel.app",
 ]
 
 
@@ -153,7 +155,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 import os
 
-render = os.getenv("RENDER","False")
+render = os.getenv("RENDER", "False")
 import dj_database_url
 
 if render == "True":
