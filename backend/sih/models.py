@@ -3,6 +3,10 @@ import uuid
 from secrets import token_urlsafe
 
 
+def generate_token():
+    return token_urlsafe(20)
+
+
 # Create your models here.
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -16,7 +20,7 @@ class Booking(models.Model):
     senior = models.IntegerField(default=0)
     payment_id = models.CharField(max_length=100, null=True)
     status = models.CharField(max_length=100, default="Pending")
-    token = models.CharField(max_length=100, default=token_urlsafe(20))
+    token = models.CharField(max_length=30, default=generate_token)
     amount = models.IntegerField(default=0)
     ticket_pdf_url = models.URLField(null=True)
 
