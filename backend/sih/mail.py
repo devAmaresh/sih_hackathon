@@ -14,7 +14,7 @@ def send_ticket_email(booking, ticket_pdf):
 
     # Mail From
     mail_from = {
-        "name": "Amaresh",
+        "name": "MuseumX",
         "email": "amaresh@trial-zr6ke4np7x9gon12.mlsender.net",
     }
 
