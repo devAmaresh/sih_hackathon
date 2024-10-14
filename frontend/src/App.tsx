@@ -1,5 +1,5 @@
 import Chat from "./components/chat";
-import ChangeLang from "./components/changeLang";
+// import ChangeLang from "./components/changeLang";
 import i18n from "./utils/i18n";
 import { useEffect, useState } from "react";
 import Page from "./components/landing/page";

@@ -7,7 +7,7 @@ import { useState } from "react";
 import DatePick from "./chat/datePick";
 import getTicketDetails from "../hooks/getDetails";
 import ContactForm from "./chat/contactForm";
-import handleContactFormSubmit from "../hooks/handleContactFormSubmit";
+// import handleContactFormSubmit from "../hooks/handleContactFormSubmit";
 import Quantity from "./chat/quantity";
 import processPayment from "../hooks/processPayment"; // Import the processPayment hook
 import "./chatbot.css";
@@ -145,7 +145,7 @@ const MyChatBot = () => {
     ask_contact_info: {
       message: t("fill_contact"),
       component: (
-        <ContactForm handleContactFormSubmit={handleContactFormSubmit} />
+        <ContactForm />
       ),
       function: (_params: Params) => {
         console.log(messages);

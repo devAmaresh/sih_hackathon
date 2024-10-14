@@ -12,7 +12,7 @@ function Quantity() {
   const [errorSelect, setErrorSelect] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const theme = localStorage.getItem("theme") || "light";
-  const { messages, setMessages } = useMessages();
+  const { setMessages } = useMessages();
   const updateForm = useStore((state) => state.updateForm);
 
   const childPrice = 10;

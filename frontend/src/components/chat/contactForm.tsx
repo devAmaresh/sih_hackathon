@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const { Item } = Form;
 
-function contactForm({ handleContactFormSubmit }: any) {
+function contactForm() {
   const { t } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
   const theme = localStorage.getItem("theme") || "light";
