@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-7u(!027q4quk@_rpfd40#u8&4&@2z0iis-d*1pn@@kwvoixq6t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app", "localhost","127.0.0.1"]
+ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -155,6 +155,17 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+import os
+
+render = os.environ.get("RENDER")
+import dj_database_url
+
+if render=="True":
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+        )
+    }
 AUTHENTICATION_BACKENDS = [
     # "allauth.account.auth_backends.AuthenticationBackend",
     "django.contrib.auth.backends.ModelBackend",
