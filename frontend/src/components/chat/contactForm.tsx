@@ -18,7 +18,7 @@ function contactForm() {
     setSubmitting(true);
     const { name, email, phone } = values;
     let visiting_date = form.visiting_date;
-    console.log(name, email, phone, visiting_date);
+    // console.log(name, email, phone, visiting_date);
     // const data = await handleContactFormSubmit(
     //   name,
     //   email,

@@ -19,7 +19,7 @@ const getGeminiFile = async (input: File) => {
       }
     );
 
-    console.log(response.data);
+    // console.log(response.data);
     return response.data.response;
   } catch (error) {
     console.log(error);
