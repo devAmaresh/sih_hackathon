@@ -4,9 +4,9 @@ const styles: Styles = {
   tooltipStyle: {
     fontSize: 16,
   },
-  chatWindowStyle: {
-    minHeight: "90%",
-  },
+  // chatWindowStyle: {
+  //   minHeight: "90%",
+  // },
   headerStyle: {
     background: "#A79277",
     minHeight: "80px",
