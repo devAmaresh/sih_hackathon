@@ -27,3 +27,10 @@
 .rcb-toggle-icon:hover {
   animation: shake 1s ease-in-out infinite !important;
 }
+
+/* Styles for medium screens and above */
+@media (min-width: 768px) {
+  .rcb-chat-window {
+    min-height: 90%;
+  }
+}
